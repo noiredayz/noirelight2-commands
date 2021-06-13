@@ -37,6 +37,7 @@ if(target_channel === nlt.chctl.findChannel("supinic", "twitch") ){
 	}
 	if(unick==="huwobot" && cmdline.match(raid_regexp)){
 		nlt.ss["twitch"].postmsg(target_channel, `+join TO ARMS! SirShield FeelsDankMan SirSword`);
+		nlt.ss["twitch"].postmsg(target_channel, `elfidelfie FeelsDankMan 🔔 join raid`);
 		resolve("handled");
 		return;
 	}
