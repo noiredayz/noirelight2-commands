@@ -19,7 +19,7 @@ const chmode = nlt.util.tlToStr(nlt.channels[target_channel].chmode);
 
 switch(incmd[0]){
 	case 'website':
-		resolve("The website is not currently operational saj");
+		resolve("Command list only for the time being: http://noiresbot.noiredayz.link/bot/commands.html");
 		break;
 	case 'api':
 		resolve("API is not currently operational saj");
@@ -34,7 +34,7 @@ switch(incmd[0]){
 	case 'nlt2':
 		let copeemote = "Copesen";
 		if(nlt.channels[target_channel].name === "pajlada") copeemote = "pajaCope";
-		if(nlt.channels[target_channel].name === "vadikus007") copeemote = "vadiCope";
+		if(nlt.channels[target_channel].name === "forsen") copeemote = "Copesen";
 		resolve(`Re-structuring the bot and rewriting features will definitely fix the development hell it was in ${copeemote}`);
 		return;
 		break;
@@ -51,7 +51,7 @@ switch(incmd[0]){
 		resolve(`Current channel mode: ${chmode}`);
 		break
 	case 'commands':
-		resolve(`Current non-admin commands (prefix: ${nlt.c.cmd_prefix}): api, bot, version, node, channelmode, help, ping, eping, bancheck, session, ffzsearch, bttvsearch, pogchamp, streamthumb, website, wiby, verypog, weather. Commands that require greenlist to be used: tl`);
+		resolve(`Okayeg http://noiresbot.noiredayz.link/bot/commands.html`);
 		break;
 	default:
 		nlt.util.printtolog(16, `<warn> Module basic_text_reply got an unknown command: ${incmd[0]}`);

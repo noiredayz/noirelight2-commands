@@ -28,6 +28,6 @@ exports.noirelight2_command = {
 
 exports.nlt2_cmd_help = {
 	shorthelp: "Usage: pogchamp <optional date in YYYY-MM-DD> Returns the last pogchamp from the records or info about the one on given date. Valid dates: 2021-01-06, 2021-01-08 - 02-12",
-	shorthelp: "Usage: pogchamp <optional date in YYYY-MM-DD> Returns the last pogchamp from the records or info about the one on a given date. Valid dates: 2021-01-06, 2021-01-08 - 02-12. Returned information contains who/what was on the emote, Twitch and Twitter handles of the streamer or author, a few words about them and a 3x link to the emote"
+	exthelp: "Usage: pogchamp <optional date in YYYY-MM-DD> Returns the last pogchamp from the records or info about the one on a given date. Valid dates: 2021-01-06, 2021-01-08 - 02-12. Returned information contains who/what was on the emote, Twitch and Twitter handles of the streamer or author, a few words about them and a 3x link to the emote"
 }
 
