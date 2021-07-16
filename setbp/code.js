@@ -16,15 +16,15 @@ switch(target_context){
 		//incmd	= cmdline.split(" ");
 		break;
 }
-
+let tch, chid;
 switch(incmd[0]){
 	case "unsetbp":
 		if(incmd.length<2){
 			resolve(`Usage: ${nlt.c.cmd_prefix}unsetbp <channel name>`);
 			return;
 		}
-		const tch = incmd[1].toLowerCase();
-		let chid = nlt.chctl.findChannel(tch, "twitch");
+		tch = incmd[1].toLowerCase();
+		chid = nlt.chctl.findChannel(tch, "twitch");
 		if(chid === -1){
 			resolve(`unknown twitch channel ${tch}`);
 			return;
@@ -33,7 +33,7 @@ switch(incmd[0]){
 			resolve(`banphrase check is already disabled in channel ${tch}`);
 			return;
 		}
-		nlt.channels[chid].bpapi="(none)"
+		nlt.channels[chid].bpapi="none";
 		nlt.maindb.insertQuery(`UPDATE channels SET bpapi_url='none' WHERE name='tch' AND context='twitch';`);
 		resolve(`successfully disabled banphrase checking in twitch channel ${tch}`);
 		return;
@@ -43,18 +43,26 @@ switch(incmd[0]){
 			resolve(`Usage: ${nlt.c.cmd_prefix}setbp <channel name> <pajbots websites base URL>`);
 			return;
 		}
-		const tch = incmd[1].toLowerCase();
-		let chid = nlt.chctl.findChannel(tch, "twitch");
+		tch = incmd[1].toLowerCase();
+		chid = nlt.chctl.findChannel(tch, "twitch");
 		if(chid === -1){
 			resolve(`unknown twitch channel ${tch}`);
 			return;
 		}
-		if(incmd[2].contains("/")){
+		if(incmd[2].includes("/")){
 			resolve(`Only enter the domain of the URL, no protocol or path, for example pb.awesomebot.com`);
 			return;
 		}
-}
-
+		nlt.channels[chid].bpapi=incmd[2];
+		nlt.maindb.insertQuery(`UPDATE channels SET bpapi_url='${incmd[2]}' WHERE name='tch' AND context='twitch';`);
+		resolve(`successfully set the banphrase checking URL of twitch channel ${tch} to ${incmd[2]}`);
+		return;
+		break;
+	default:
+		reject("internal command error(invalid alias");
+		break;
+		return;
+	}
 })
 }
 
