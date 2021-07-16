@@ -49,7 +49,8 @@ nlt.got(https_options).json().then((d) => {
 		return;
 	}
 	const iidx = getRndInteger(0, d.length-1);
-	resolve(`https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id+` https://safebooru.org//images/`+d[iidx].directory+`/`+d[iidx].image);
+	//resolve(`https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id+` https://safebooru.org//images/`+d[iidx].directory+`/`+d[iidx].image);
+	resolve(`https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id);
 	return;
 	
 }).catch((err) => {
