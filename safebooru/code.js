@@ -1,6 +1,6 @@
 const {printtolog, getRndInteger, locateCharInStr} = require(process.cwd()+"/lib/nlt-tools.js");
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const sfbBaseURL = "https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=5&tags=";
+const sfbBaseURL = "https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=50&tags=";
 
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
 return new Promise ((resolve, reject) => {
@@ -48,7 +48,7 @@ nlt.got(https_options).json().then((d) => {
 		resolve("couldn't find any images for your query.");
 		return;
 	}
-	const iidx = getRndInteger(0, d.length-1);
+	let iidx = getRndInteger(0, d.length-1);
 	//resolve(`https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id+` https://safebooru.org//images/`+d[iidx].directory+`/`+d[iidx].image);
 	resolve(`https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id);
 	return;
