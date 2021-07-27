@@ -49,7 +49,7 @@ if(osload[0] != 0){
 }
 let cmds_used = nlt.msgqdb.selectQuery("SELECT id FROM cooldowns;").length;
 if (nlt.channels[target_channel].bpapi === "none")
-		bpapi = "not connected";
+		bpapi = "(n/a)";
 	else {
 		bpapi = nlt.channels[target_channel].bpapi;
 		stime = new Date;
@@ -67,9 +67,9 @@ if (nlt.channels[target_channel].bpapi === "none")
 	}	
 
 if (incmd[0] === "extping" || incmd[0] === "eping")
-		resolve(`Pong! Mode: ${nlt.util.tlToStr(nlt.channels[target_channel].chmode)}, uptime: ${nlt.util.donktime(uptime)}, commands used in this session: ${cmds_used}, memory usage: ${nlt.util.memusage()}, banphrase API: ${bpapi}, ${loadmsg}latency to ${pingtext}`);
+		resolve(`Pong! Mode: ${nlt.util.tlToStr(nlt.channels[target_channel].chmode)}, uptime: ${nlt.util.donktime(uptime)}, commands used (this session): ${cmds_used}, mem.usage: ${nlt.util.memusage()}, banphrase API: ${bpapi}, ${loadmsg}latency to ${pingtext}, cache: ${nlt.cache.stat(true).keyCount} keys`);
 	else 
-		resolve(`Pong! Mode: ${nlt.util.tlToStr(nlt.channels[target_channel].chmode)}, uptime: ${nlt.util.donktime(uptime)}, commands used in this session: ${cmds_used}, latency to ${pingtext}. See ${nlt.c.cmd_prefix}eping for more stats`);
+		resolve(`Pong! Mode: ${nlt.util.tlToStr(nlt.channels[target_channel].chmode)}, uptime: ${nlt.util.donktime(uptime)}, commands used (this session): ${cmds_used}, latency to ${pingtext}. See ${nlt.c.cmd_prefix}eping for more stats`);
 return;
 })
 }
