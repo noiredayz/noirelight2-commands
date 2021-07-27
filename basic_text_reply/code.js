@@ -53,6 +53,15 @@ switch(incmd[0]){
 	case 'commands':
 		resolve(`Okayeg http://noiresbot.noiredayz.link/bot/commands.html`);
 		break;
+	case 'duardo':
+		if(nlt.channels[target_channel].name === "fabzeef" && unick==="buttsbot"){
+			resolve(`I meu\u{E0000}rsaulted LuL`);
+			return
+		} else {
+			resolve("self-printing");
+			return;
+		}
+		break;
 	default:
 		nlt.util.printtolog(16, `<warn> Module basic_text_reply got an unknown command: ${incmd[0]}`);
 		reject(`internal command error (invalid alias ${incmd[0]})`);
