@@ -51,7 +51,7 @@ switch(incmd[0]){
 		resolve(`Current channel mode: ${chmode}`);
 		break
 	case 'commands':
-		resolve(`Okayeg http://noiresbot.noiredayz.link/bot/commands.html`);
+		resolve(`Okayeg https://noiresbot.noiredayz.link/bot/commands.html`);
 		break;
 	case 'duardo':
 		if(nlt.channels[target_channel].name === "fabzeef" && unick==="buttsbot"){
