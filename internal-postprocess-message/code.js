@@ -29,6 +29,12 @@ if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "
 	return;
 }
 
+if(target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick==="buttsbot" && cmdline.toLowerCase().startsWith(nlt.c.cmd_prefix+"duardo")){
+	nlt.ss["twitch"].postmsg(target_channel, `I meu\u{E0000}rsaulted LuL`);
+	resolve("handled");
+	return;
+}
+
 resolve("not handled");
 return;
 
