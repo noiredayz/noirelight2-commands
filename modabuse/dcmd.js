@@ -1,6 +1,6 @@
 /*
- * noirelight2 template
- * CC-0 no rights reserved
+ * noirelight2 extra commands
+ * agpl 3
 
 */
 
