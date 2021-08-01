@@ -25,7 +25,7 @@ if(!cPerms){
 	reject("no userstate cached for this channel.")
 	return;
 }
-if(!cPerms.isMod || nlt.channels[target_channel].name != nlt.c.twitch.username){
+if(!cPerms.isMod && nlt.channels[target_channel].name != nlt.c.twitch.username){
 	reject("I have no moderation permissions for this operation");
 	return;
 }
