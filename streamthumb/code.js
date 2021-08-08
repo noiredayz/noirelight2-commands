@@ -57,7 +57,7 @@ switch(incmd[0]){
 		nlt.got(tlHttpOpts).json().then((data) => {
 			let retval="";
 			if(data.output.nsfw_score){
-				if(nlt.channels[target_channel].links===0){
+				if(nlt.channels[target_channel].links===0)
 					retval = `Channel: #${incmd[1].toLowerCase()} NSFW score: ${nlt.util.floatToPercentText(data.output.nsfw_score)}%, detection(s): `;
 				else
 					retval = `Image: ${tURL} NSFW score: ${nlt.util.floatToPercentText(data.output.nsfw_score)}%, detection(s): `;
