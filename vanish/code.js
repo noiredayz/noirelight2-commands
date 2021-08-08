@@ -33,7 +33,11 @@ if(unick.toLowerCase() === nlt.channels[target_channel].name){
 	resolve("I cannot time out the broadcaster.");
 	return;
 }
-if(fullmsg.isMod && nlt.channels[target_channel].name != nlt.c.twitch.username){
+if(fullmsg.isMod && nlt.channels[target_channel].name === nlt.c.twitch.username){
+	resolve("Timing out moderators will result in losing their moderation status, so I won't do it.");
+	return;
+}	
+if(fullmsg.isMod){
 	resolve("I cannot time out other moderators.");
 	return;
 }
