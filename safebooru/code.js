@@ -19,6 +19,10 @@ switch(target_context){
 		//incmd	= cmdline.split(" ");
 		break;
 }
+if(nlt.channels[target_channel].links===0){
+	resolve("this command cannot be used in channels where links are disabled.");
+	return;
+}
 if(incmd.length===1){
 	resolve("please specify at least one tag to search for");
 	return;

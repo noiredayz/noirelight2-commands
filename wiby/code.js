@@ -14,6 +14,10 @@ switch(target_context){
 		incmd	= cmdline.split(" ");
 		break;
 }
+if(nlt.channels[target_channel].links===0){
+	resolve("this command cannot be used in channels where links are disabled.");
+	return;
+}
 
  
 const wiby_url = "https://wiby.me/json/?q="; 

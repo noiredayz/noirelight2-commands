@@ -51,7 +51,8 @@ let cmds_used = nlt.msgqdb.selectQuery("SELECT id FROM cooldowns;").length;
 if (nlt.channels[target_channel].bpapi === "none")
 		bpapi = "(n/a)";
 	else {
-		bpapi = nlt.channels[target_channel].bpapi;
+		if(nlt.channels[target_channel].links===1)
+			bpapi = nlt.channels[target_channel].bpapi;	
 		stime = new Date;
 		try{
 			await nlt.ss["twitch"].pbotBanphraseCheck(bpapi, "ping :)");

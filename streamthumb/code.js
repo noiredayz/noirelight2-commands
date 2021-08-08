@@ -24,6 +24,10 @@ if (incmd.length===1){
 switch(incmd[0]){
 	case "st":
 	case "streamthumb":
+		if(nlt.channels[target_channel].links===0){
+			resolve("this command cannot be used in channels where links are disabled.");
+			return;
+		}
 		if(incmd.length>2){
 			if(!valid_heights.find(i => i=== incmd[2])){
 					resolve(`invalid resolution ${incmd[2]} valid ones are 160p 360p 480p 720p 1080p. Default is 440x248p.`);
@@ -53,7 +57,10 @@ switch(incmd[0]){
 		nlt.got(tlHttpOpts).json().then((data) => {
 			let retval="";
 			if(data.output.nsfw_score){
-				retval = `Image: ${tURL} NSFW score: ${nlt.util.floatToPercentText(data.output.nsfw_score)}%, detection(s): `;
+				if(nlt.channels[target_channel].links===0){
+					retval = `Channel: #${incmd[1].toLowerCase()} NSFW score: ${nlt.util.floatToPercentText(data.output.nsfw_score)}%, detection(s): `;
+				else
+					retval = `Image: ${tURL} NSFW score: ${nlt.util.floatToPercentText(data.output.nsfw_score)}%, detection(s): `;
 				if (data.output.detections.length===0){
 					retval += "none";
 					resolve(retval);

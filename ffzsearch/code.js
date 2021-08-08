@@ -14,6 +14,10 @@ switch(target_context){
 		incmd	= cmdline.split(" ");
 		break;
 }
+if(nlt.channels[target_channel].links===0){
+	resolve("this command cannot be used in channels where links are disabled.");
+	return;
+}
 let tuser, temote, tindex=1, tmethod=0, ffzurl;
 
 if(incmd.length<2){
