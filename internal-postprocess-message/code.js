@@ -44,13 +44,14 @@ if(unick==="huwobot" && cmdline.match(raid_regex)){
 		}
 	}
 	resolve("handled");
+	return;
 }
 
 if(unick==="huwobot" && cmdline.includes("failed to beat the raid level") && nlt.channels[target_channel].chmode==="2"){
 		nlt.ss["twitch"].postmsg(target_channel, `UnSane`);
 		resolve("handled");
 		return;
-	}
+}
 
 if(unick==="huwobot" && cmdline.includes("users beat the raid level") && nlt.channels[target_channel].chmode==="2"){
 	nlt.ss["twitch"].postmsg(target_channel, `KomodoHype`);
@@ -70,4 +71,5 @@ async function raid_broadcast(){
 	else
 		nlt.cache.setd("raid_broadcast_run", "", 60*60);
 	//TODO: tell people to join raid based on subscription here	
+	return;
 }
