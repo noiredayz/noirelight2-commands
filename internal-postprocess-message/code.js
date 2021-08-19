@@ -10,7 +10,7 @@ switch(target_context){
 		break;
 	//placeholder for other contexts that may require extra handling Okayeg
 	default:
-		cmdline = fullmsg.substr(1);
+		cmdline = fullmsg;
 		cmdline = cmline.trim();
 		incmd	= cmdline.split(" ");
 		break;
@@ -35,9 +35,39 @@ if(target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick==="but
 	return;
 }
 
+if(unick==="huwobot" && cmdline.match(raid_regex)){
+	raid_broadcast();
+	if(!nlt.cache.getd("raid_self_join")){
+		if(nlt.channels[target_channel].chmode==="2"){
+			nlt.cache.setd("raid_self_join", "", 60*60);
+			nlt.ss["twitch"].postmsg(target_channel, "+join SirShield FeelsDankMan SirSword");
+		}
+	}
+	resolve("handled");
+}
+
+if(unick==="huwobot" && cmdline.includes("failed to beat the raid level" && nlt.channels[target_channel].chmode==="2")){
+		nlt.ss["twitch"].postmsg(target_channel, `UnSane`);
+		resolve("handled");
+		return;
+	}
+
+if(unick==="huwobot" && cmdline.includes("users beat the raid level") && nlt.channels[target_channel].chmode==="2"){
+	nlt.ss["twitch"].postmsg(target_channel, `KomodoHype`);
+	resolve("handled");
+	return;
+}
+
 resolve("not handled");
 return;
 
 })
 }
 
+async function raid_broadcast(){
+	if(nlt.cache.getd("raid_broadcast_run"))
+		return
+	else
+		nlt.cache.setd("raid_broadcast_run", "", 60*60);
+	//TODO: tell people to join raid based on subscription here	
+}
