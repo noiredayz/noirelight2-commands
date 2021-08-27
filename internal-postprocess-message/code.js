@@ -1,3 +1,8 @@
+"use strict";
+const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
+const {printtolog} = require(process.cwd()+"/lib/nlt-tools.js");
+
+
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
 return new Promise ((resolve, reject) => {
 
@@ -15,7 +20,7 @@ switch(target_context){
 		incmd	= cmdline.split(" ");
 		break;
 }
-const raid_regexp = RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'); 	
+const raid_regexp = RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'); 
 
 if (target_channel === nlt.chctl.findChannel("noires_bot", "twitch") && cmdline.match(RegExp('NoireWut'))){
 	nlt.ss["twitch"].postmsg(target_channel, `SmugNoire`);
@@ -29,34 +34,31 @@ if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "
 	return;
 }
 
-if(target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick==="buttsbot" && cmdline.toLowerCase().startsWith(nlt.c.cmd_prefix+"duardo")){
-	nlt.ss["twitch"].postmsg(target_channel, `I meu\u{E0000}rsaulted LuL`);
-	resolve("handled");
-	return;
-}
-
-if(unick==="huwobot" && cmdline.match(raid_regex)){
-	raid_broadcast();
-	if(!nlt.cache.getd("raid_self_join")){
-		if(nlt.channels[target_channel].chmode==="2"){
-			nlt.cache.setd("raid_self_join", "", 60*60);
+if(unick==="huwobot"){
+	if(cmdline.match(raid_regex)){
+		raid_broadcast();
+		printtolog(LOG_DGB, `<debug> IPPM: huwobot raid detected`);
+		if(!nlt.cache.getd("raid_self_join")){
+			nlt.cache.setd("raid_self_join", "NaM", 60*20);
 			nlt.ss["twitch"].postmsg(target_channel, "+join SirShield FeelsDankMan SirSword");
+			printtolog(LOG_DGB, `<debug> IPPM: joining raid in #${nlt.channels[target_channel].name}`);
+		} else {
+			printtolog(LOG_DGB, `<debug> IPPM: not joining in #${nlt.channels[target_channel].name}, already joined the raid somewhere else`);
 		}
+		resolve("handled");
+		return;
 	}
-	resolve("handled");
-	return;
-}
-
-if(unick==="huwobot" && cmdline.includes("failed to beat the raid level") && nlt.channels[target_channel].chmode==="2"){
+	if(cmdline.includes("failed to beat the raid level")){
 		nlt.ss["twitch"].postmsg(target_channel, `UnSane`);
 		resolve("handled");
 		return;
-}
-
-if(unick==="huwobot" && cmdline.includes("users beat the raid level") && nlt.channels[target_channel].chmode==="2"){
-	nlt.ss["twitch"].postmsg(target_channel, `KomodoHype`);
-	resolve("handled");
-	return;
+	}
+	if(cmdline.includes("users beat the raid level")){
+		nlt.ss["twitch"].postmsg(target_channel, `KomodoHype`);
+		resolve("handled");
+		return;
+	}
+	
 }
 
 resolve("not handled");
@@ -73,3 +75,4 @@ async function raid_broadcast(){
 	//TODO: tell people to join raid based on subscription here	
 	return;
 }
+
