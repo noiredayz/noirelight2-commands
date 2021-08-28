@@ -32,9 +32,8 @@ if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "
 	resolve("handled");
 	return;
 }
-printtolog(LOG_DBG, `<debug> IPPM: ${unick}`);
+
 if(unick==="huwobot"){
-	printtolog(LOG_DBG, `<debug> IPPM: huwobot: testing raid announcement`);
 	if(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'))){
 		raid_broadcast();
 		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid detected`);
@@ -47,25 +46,19 @@ if(unick==="huwobot"){
 		}
 		resolve("handled");
 		return;
-	} else {
-		printtolog(LOG_DBG, `<ippm> huwobot: this is not a raid announcement`);
 	}
 	
-	printtolog(LOG_DBG, `<debug> IPPM: huwobot: testing failed raid`);
 	if(cmdline.includes("failed to beat the raid level")){
-		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid failed`);
 		nlt.ss["twitch"].postmsg(target_channel, `UnSane`);
 		resolve("handled");
 		return;
 	}
 	printtolog(LOG_DBG, `<debug> IPPM: huwobot: testing successful raid`);
 	if(cmdline.includes("users beat the raid level")){
-		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid success`);
 		nlt.ss["twitch"].postmsg(target_channel, `KomodoHype`);
 		resolve("handled");
 		return;
 	}
-	printtolog(LOG_DBG, `<debug> IPPM: huwobot: test failed, this was a generic message: ${cmdline}`);
 }
 
 resolve("not handled");
