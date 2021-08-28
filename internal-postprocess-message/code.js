@@ -20,7 +20,6 @@ switch(target_context){
 		incmd	= cmdline.split(" ");
 		break;
 }
-const raid_regexp = RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'); 
 
 if (target_channel === nlt.chctl.findChannel("noires_bot", "twitch") && cmdline.match(RegExp('NoireWut'))){
 	nlt.ss["twitch"].postmsg(target_channel, `SmugNoire`);
@@ -33,32 +32,40 @@ if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "
 	resolve("handled");
 	return;
 }
-
+printtolog(LOG_DBG, `<debug> IPPM: ${unick}`);
 if(unick==="huwobot"){
-	if(cmdline.match(raid_regex)){
+	printtolog(LOG_DBG, `<debug> IPPM: huwobot: testing raid announcement`);
+	if(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'))){
 		raid_broadcast();
-		printtolog(LOG_DGB, `<debug> IPPM: huwobot raid detected`);
+		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid detected`);
 		if(!nlt.cache.getd("raid_self_join")){
 			nlt.cache.setd("raid_self_join", "NaM", 60*20);
 			nlt.ss["twitch"].postmsg(target_channel, "+join SirShield FeelsDankMan SirSword");
-			printtolog(LOG_DGB, `<debug> IPPM: joining raid in #${nlt.channels[target_channel].name}`);
+			printtolog(LOG_DBG, `<debug> IPPM: joining raid in #${nlt.channels[target_channel].name}`);
 		} else {
-			printtolog(LOG_DGB, `<debug> IPPM: not joining in #${nlt.channels[target_channel].name}, already joined the raid somewhere else`);
+			printtolog(LOG_DBG, `<debug> IPPM: not joining in #${nlt.channels[target_channel].name}, already joined the raid somewhere else`);
 		}
 		resolve("handled");
 		return;
+	} else {
+		printtolog(LOG_DBG, `<ippm> huwobot: this is not a raid announcement`);
 	}
+	
+	printtolog(LOG_DBG, `<debug> IPPM: huwobot: testing failed raid`);
 	if(cmdline.includes("failed to beat the raid level")){
+		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid failed`);
 		nlt.ss["twitch"].postmsg(target_channel, `UnSane`);
 		resolve("handled");
 		return;
 	}
+	printtolog(LOG_DBG, `<debug> IPPM: huwobot: testing successful raid`);
 	if(cmdline.includes("users beat the raid level")){
+		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid success`);
 		nlt.ss["twitch"].postmsg(target_channel, `KomodoHype`);
 		resolve("handled");
 		return;
 	}
-	
+	printtolog(LOG_DBG, `<debug> IPPM: huwobot: test failed, this was a generic message: ${cmdline}`);
 }
 
 resolve("not handled");
