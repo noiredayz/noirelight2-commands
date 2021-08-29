@@ -1,4 +1,4 @@
-const {printtolog, getRndInteger, locateCharInStr} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, getRndInteger, locateCharInStr, cleanupArray} = require(process.cwd()+"/lib/nlt-tools.js");
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
 const sfbBaseURL = "https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=50&tags=";
 
@@ -10,7 +10,7 @@ let cmdline, incmd;
 switch(target_context){
 	case "twitch":
 		cmdline = fullmsg.messageText.substr(1);	//full message excluding the prefix
-		incmd 	= cmdline.split(" ");				//same but split
+		incmd 	= cleanupArray(cmdline.split(" "));				//same but split
 		break;
 	//placeholder for other contexts that may require extra handling Okayeg
 	default:
