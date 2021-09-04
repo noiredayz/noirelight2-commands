@@ -68,11 +68,38 @@ return;
 }
 
 async function raid_broadcast(){
-	if(nlt.cache.getd("raid_broadcast_run"))
+	if(nlt.cache.getd(`raid_broadcast_${nlt.channels[target_channel].name}`))
 		return
 	else
-		nlt.cache.setd("raid_broadcast_run", "", 60*60);
-	//TODO: tell people to join raid based on subscription here	
+		nlt.cache.setd(`raid_broadcast_${nlt.channels[target_channel].name}`, "", 60*60);
+	//TODO: tell people to join raid based on subscription here
+	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channel='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
+	if(nlist.length===0) return;
+	let i, g=0, retval="FeelsDankMan 🔔 JOIN RAID 👉 ", bc, inick;
+	for(i=0;i<nlist.length;i++){
+		inick = nlist.shift().nick;
+		if(nlt.util.internal_banphrase(inick)) continue;
+		if(nlt.channels[target_channel].bpapi==="none"){
+			retval += inick+" ";
+		} else {
+			try {
+				bc = await nlt.ss["twitch"].pbotBanphraseCheck(nlt.channels[target_channel].bpapi, inick);
+			}
+			catch(err){
+				printtolog(LOG_WARN, `<raid broadcast> failure banphrase checking nick ${inick} in ${nlt.channels[target_channel].name}: ${err}`);
+				continue;
+			}
+			if(bc.banned) continue;
+			else retval += inick+" ";
+		}
+		g++;
+		if(g===10){
+			nlt.ss["twitch"].postmsg(target_channel, retval);
+			retval="FeelsDankMan 🔔 JOIN RAID 👉 ";
+			g=0;
+		}
+	}
+	if(g!=0) nlt.ss["twitch"].postmsg(target_channel, retval);
 	return;
 }
 
