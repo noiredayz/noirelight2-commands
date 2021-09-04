@@ -37,8 +37,8 @@ if(unick==="huwobot"){
 	if(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'))){
 		raid_broadcast();
 		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid detected`);
-		if(!nlt.cache.getd("raid_self_join")){
-			nlt.cache.setd("raid_self_join", "NaM", 60*20);
+		if(!nlt.cache.getd("raid-self-join")){
+			nlt.cache.setd("raid-self-join", "NaM", 60*20);
 			nlt.ss["twitch"].postmsg(target_channel, "+join SirShield FeelsDankMan SirSword");
 			printtolog(LOG_DBG, `<debug> IPPM: joining raid in #${nlt.channels[target_channel].name}`);
 		} else {
@@ -68,12 +68,16 @@ return;
 }
 
 async function raid_broadcast(){
-	if(nlt.cache.getd(`raid_broadcast_${nlt.channels[target_channel].name}`))
-		return
-	else
-		nlt.cache.setd(`raid_broadcast_${nlt.channels[target_channel].name}`, "", 60*60);
-	//TODO: tell people to join raid based on subscription here
+	if(nlt.cache.getd(`raid-broadcast-${nlt.channels[target_channel].name}`)){
+		printtolog(LOG_DBG, `<raidb> Already broadcasted in this channel.`);
+		return;
+	} else {
+		nlt.cache.setd(`raid-broadcast-${nlt.channels[target_channel].name}`, "NaM", 60*60);
+		printtolog(LOG_DBG, `<raidb> Broadcasting raid ping in channel ${nlt.channels[target_channel].name}`);
+	}
+	
 	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channel='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
+	printtolog(LOG_DBG, `<raidb> Selected ${nlist.length} entries from the list`);
 	if(nlist.length===0) return;
 	let i, g=0, retval="FeelsDankMan 🔔 JOIN RAID 👉 ", bc, inick;
 	for(i=0;i<nlist.length;i++){
