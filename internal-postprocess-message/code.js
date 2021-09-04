@@ -4,7 +4,7 @@ const {printtolog} = require(process.cwd()+"/lib/nlt-tools.js");
 
 
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
-return new Promise ((resolve, reject) => {
+return new Promise (async (resolve, reject) => {
 
 let cmdline, incmd;
 
