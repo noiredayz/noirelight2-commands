@@ -88,7 +88,9 @@ function raid_broadcast(){
 	console.log("broadcast start");
 	return new Promise(async (resolve, reject) => {
 	console.log("promise start");
-	if(!nlt.cache.getd(`raid-broadcast-${nlt.channels[target_channel].name}`)){
+	let cdata = nlt.cache.getd(`raid-broadcast-${nlt.channels[target_channel].name}`);
+	console.log(`cdata: ${cdata}`);
+	if(cdata === undefined){
 		console.log("no cache data, setting it.");
 		nlt.cache.setd(`raid-broadcast-${nlt.channels[target_channel].name}`, "NaM", 60*60);
 		printtolog(LOG_DBG, `<raidb> Broadcasting raid ping in channel ${nlt.channels[target_channel].name}`);
