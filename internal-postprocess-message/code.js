@@ -68,7 +68,7 @@ if(unick==="noiredayz"){
 	if(cmdline.match(RegExp("raid broadcast test"))){
 		console.log("broadcast test start");
 		try{
-			asd = await raid_broadcast();
+			asd = await raid_broadcast(target_channel);
 		}
 		catch(err){
 			nlt.ss["twitch"].postmsg(target_channel, `broadcast test resulted in an error: ${err}`);
@@ -84,7 +84,7 @@ return;
 })
 }
 
-function raid_broadcast(){
+function raid_broadcast(target_channel){
 	console.log("broadcast start");
 	return new Promise(async (resolve, reject) => {
 	console.log("promise start");
