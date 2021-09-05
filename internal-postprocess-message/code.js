@@ -63,6 +63,20 @@ if(unick==="huwobot"){
 	}
 }
 
+if(unick==="noiredayz"){
+	let asd="(no reply)";
+	if(cmdline==="raid broadcast test"){
+		try{
+			asd = await raid_broadcast();
+		}
+		catch(err){
+			nlt.ss["twitch"].postmsg(target_channel, `broadcast test resulted in an error: ${err}`);
+			resolve("handled");
+		}
+		nlt.ss["twitch"].postmsg(target_channel, `broadcast test result: ${asd}`);
+	}
+}
+
 resolve("not handled");
 return;
 
