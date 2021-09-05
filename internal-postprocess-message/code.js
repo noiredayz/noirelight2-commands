@@ -65,7 +65,7 @@ if(unick==="huwobot"){
 
 if(unick==="noiredayz"){
 	let asd="(no reply)";
-	if(cmdline==="raid broadcast test"){
+	if(cmdline.match(RegExp("raid broadcast test"))){
 		try{
 			asd = await raid_broadcast();
 		}
@@ -85,12 +85,12 @@ return;
 
 function raid_broadcast(){
 	return new Promise(async (resolve, reject) => {
-	if(nlt.cache.getd(`raid-broadcast-${nlt.channels[target_channel].name}`)){
-		printtolog(LOG_DBG, `<raidb> Already broadcasted in this channel.`);
-		resolve("already-broadcasted-here");
-	} else {
+	if(!nlt.cache.getd(`raid-broadcast-${nlt.channels[target_channel].name}`)){
 		nlt.cache.setd(`raid-broadcast-${nlt.channels[target_channel].name}`, "NaM", 60*60);
 		printtolog(LOG_DBG, `<raidb> Broadcasting raid ping in channel ${nlt.channels[target_channel].name}`);
+	} else {
+		printtolog(LOG_DBG, `<raidb> Already broadcasted in this channel.`);
+		resolve("already-broadcasted-here");
 	}
 	
 	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channel='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
