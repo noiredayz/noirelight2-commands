@@ -108,7 +108,7 @@ function raid_broadcast(target_channel){
 		return;
 	}
 	let i, g=0, retval="FeelsDankMan 🔔 JOIN RAID 👉 ", bc, inick;
-	for(i=0;i<nlist.length;i++){
+	for(i=0;i<=nlist.length;i++){
 		inick = nlist.shift().nick;
 		if(nlt.util.internal_banphrase(inick)) continue;
 		if(nlt.channels[target_channel].bpapi==="none"){
