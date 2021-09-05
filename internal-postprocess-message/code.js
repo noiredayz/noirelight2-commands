@@ -66,6 +66,7 @@ if(unick==="huwobot"){
 if(unick==="noiredayz"){
 	let asd="(no reply)";
 	if(cmdline.match(RegExp("raid broadcast test"))){
+		console.log("broadcast test start");
 		try{
 			asd = await raid_broadcast();
 		}
@@ -84,18 +85,25 @@ return;
 }
 
 function raid_broadcast(){
+	console.log("broadcast start");
 	return new Promise(async (resolve, reject) => {
+	console.log("promise start");
 	if(!nlt.cache.getd(`raid-broadcast-${nlt.channels[target_channel].name}`)){
+		console.log("no cache data, setting it.");
 		nlt.cache.setd(`raid-broadcast-${nlt.channels[target_channel].name}`, "NaM", 60*60);
 		printtolog(LOG_DBG, `<raidb> Broadcasting raid ping in channel ${nlt.channels[target_channel].name}`);
 	} else {
 		printtolog(LOG_DBG, `<raidb> Already broadcasted in this channel.`);
 		resolve("already-broadcasted-here");
+		return;
 	}
 	
 	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channel='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
 	printtolog(LOG_DBG, `<raidb> Selected ${nlist.length} entries from the list`);
-	if(nlist.length===0) resolve("empty-list");
+	if(nlist.length===0) {
+		resolve("empty-list");
+		return;
+	}
 	let i, g=0, retval="FeelsDankMan 🔔 JOIN RAID 👉 ", bc, inick;
 	for(i=0;i<nlist.length;i++){
 		inick = nlist.shift().nick;
@@ -122,6 +130,7 @@ function raid_broadcast(){
 	}
 	if(g!=0) nlt.ss["twitch"].postmsg(target_channel, retval);
 	resolve("finished");
+	return;
 });
 }
 
