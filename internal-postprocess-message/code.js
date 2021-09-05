@@ -55,7 +55,6 @@ if(unick==="huwobot"){
 		resolve("handled");
 		return;
 	}
-	printtolog(LOG_DBG, `<debug> IPPM: huwobot: testing successful raid`);
 	if(cmdline.includes("users beat the raid level")){
 		nlt.ss["twitch"].postmsg(target_channel, `KomodoHype`);
 		resolve("handled");
@@ -85,22 +84,17 @@ return;
 }
 
 function raid_broadcast(target_channel){
-	console.log("broadcast start");
 	return new Promise(async (resolve, reject) => {
-	console.log("promise start");
 	let cdata = nlt.cache.getd(`raid broadcast ${nlt.channels[target_channel].name}`);
 	console.log(`cdata: ${cdata}`);
 	if(cdata === undefined){
-		console.log("no cache data, setting it.");
 		nlt.cache.setd(`raid broadcast ${nlt.channels[target_channel].name}`, "NaM", 60*60);
 		printtolog(LOG_DBG, `<raidb> Broadcasting raid ping in channel ${nlt.channels[target_channel].name}`);
 	} else {
-		console.log("already found broadcast data");
 		printtolog(LOG_DBG, `<raidb> Already broadcasted in this channel.`);
 		resolve("already-broadcasted-here");
 		return;
 	}
-	console.log("starting");
 	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channelname='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
 	printtolog(LOG_DBG, `<raidb> Selected ${nlist.length} entries from the list`);
 	if(nlist.length===0 || nlist===-1 || !nlist) {
