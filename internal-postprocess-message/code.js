@@ -35,7 +35,9 @@ if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "
 
 if(unick==="huwobot"){
 	if(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'))){
-		raid_broadcast();
+		raid_broadcast().then((d) => {
+			printtolog(LOG_DBG, `<raid> broadcast result: ${d}`);
+			});
 		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid detected`);
 		if(!nlt.cache.getd("raid-self-join")){
 			nlt.cache.setd("raid-self-join", "NaM", 60*20);
@@ -67,10 +69,11 @@ return;
 })
 }
 
-async function raid_broadcast(){
+function raid_broadcast(){
+	return new Promise(async (resolve, reject) => {
 	if(nlt.cache.getd(`raid-broadcast-${nlt.channels[target_channel].name}`)){
 		printtolog(LOG_DBG, `<raidb> Already broadcasted in this channel.`);
-		return;
+		resolve("already-broadcasted-here");
 	} else {
 		nlt.cache.setd(`raid-broadcast-${nlt.channels[target_channel].name}`, "NaM", 60*60);
 		printtolog(LOG_DBG, `<raidb> Broadcasting raid ping in channel ${nlt.channels[target_channel].name}`);
@@ -78,7 +81,7 @@ async function raid_broadcast(){
 	
 	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channel='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
 	printtolog(LOG_DBG, `<raidb> Selected ${nlist.length} entries from the list`);
-	if(nlist.length===0) return;
+	if(nlist.length===0) resolve("empty-list");
 	let i, g=0, retval="FeelsDankMan 🔔 JOIN RAID 👉 ", bc, inick;
 	for(i=0;i<nlist.length;i++){
 		inick = nlist.shift().nick;
@@ -104,6 +107,7 @@ async function raid_broadcast(){
 		}
 	}
 	if(g!=0) nlt.ss["twitch"].postmsg(target_channel, retval);
-	return;
+	resolve("finished");
+});
 }
 
