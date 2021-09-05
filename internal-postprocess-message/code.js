@@ -35,7 +35,7 @@ if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "
 
 if(unick==="huwobot"){
 	if(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'))){
-		raid_broadcast().then((d) => {
+		raid_broadcast(target_channel).then((d) => {
 			printtolog(LOG_DBG, `<raid> broadcast result: ${d}`);
 			});
 		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid detected`);
