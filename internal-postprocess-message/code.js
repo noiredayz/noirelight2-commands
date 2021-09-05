@@ -101,9 +101,9 @@ function raid_broadcast(target_channel){
 		return;
 	}
 	console.log("starting");
-	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channel='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
+	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channelname='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
 	printtolog(LOG_DBG, `<raidb> Selected ${nlist.length} entries from the list`);
-	if(nlist.length===0) {
+	if(nlist.length===0 || nlist===-1 || !nlist) {
 		resolve("empty-list");
 		return;
 	}
