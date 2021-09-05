@@ -93,11 +93,12 @@ function raid_broadcast(){
 		nlt.cache.setd(`raid-broadcast-${nlt.channels[target_channel].name}`, "NaM", 60*60);
 		printtolog(LOG_DBG, `<raidb> Broadcasting raid ping in channel ${nlt.channels[target_channel].name}`);
 	} else {
+		console.log("already found broadcast data");
 		printtolog(LOG_DBG, `<raidb> Already broadcasted in this channel.`);
 		resolve("already-broadcasted-here");
 		return;
 	}
-	
+	console.log("starting");
 	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channel='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
 	printtolog(LOG_DBG, `<raidb> Selected ${nlist.length} entries from the list`);
 	if(nlist.length===0) {
