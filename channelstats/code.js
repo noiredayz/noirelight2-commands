@@ -48,7 +48,7 @@ let lastline = nlt.logdb.selectQuery(`SELECT * FROM selfposts WHERE channel='${n
 if(lastline.length===0){
 	retval += `no bot activity since 2021-08-23`;
 } else {
-	retval += `last bot activity ${donktime(getunixtime()-lastline[0].time)}`;
+	retval += `last bot activity ${donktime(getunixtime()-lastline[0].time)} ago`;
 }
 resolve(retval);
 return;
