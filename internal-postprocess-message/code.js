@@ -101,9 +101,9 @@ function raid_broadcast(target_channel){
 		resolve("empty-list");
 		return;
 	}
-	let i, g=0, retval="FeelsDankMan 🔔 JOIN RAID 👉 ", bc, inick;
-	for(i=0;i<=nlist.length;i++){
-		inick = nlist.shift().nick;
+	let g=0, retval="FeelsDankMan 🔔 JOIN RAID 👉 ", bc, inick;
+	for(const l of nlist){
+		inick = l.nick;
 		if(nlt.util.internal_banphrase(inick)) continue;
 		if(nlt.channels[target_channel].bpapi==="none"){
 			retval += inick+" ";
