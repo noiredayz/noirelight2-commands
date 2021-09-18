@@ -1,5 +1,5 @@
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const {printtolog, donktime, getunixtime} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, donktime, getunixtime, getRndInteger} = require(process.cwd()+"/lib/nlt-tools.js");
 const {getRandomUserAgent, nsfwCheckURL} = require(process.cwd()+"/lib/nlt-got.js");
 
 
