@@ -44,7 +44,7 @@ if(chlist.length===0){
 	return;
 }
 const ctarget = chlist[getRndInteger(0, chlist.length-1)];
-const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${ctarget.user_login}-1280x720.jpg`;
+const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${ctarget.user_login}-1920x1080.jpg`;
 let retval;
 try{
 	retval = await nsfwCheckURL(tURL);

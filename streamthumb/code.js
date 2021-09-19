@@ -30,20 +30,20 @@ switch(incmd[0]){
 		}
 		if(incmd.length>2){
 			if(!valid_heights.find(i => i=== incmd[2])){
-					resolve(`invalid resolution ${incmd[2]} valid ones are 160p 360p 480p 720p 1080p. Default is 440x248p.`);
+					resolve(`invalid resolution ${incmd[2]} valid ones are 160p 360p 480p 720p 1080p. Default is full HD.`);
 					return;
 				} else {
 					resolve(`https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-${resolutions[valid_heights.findIndex(i => i===incmd[2])]}.jpg`);
 					return;
 				}
 			} else {
-				resolve(`https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-440x248.jpg`);
+				resolve(`https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-1920x1080.jpg`);
 				return;
 		}
 		break;
 	case "stcheck":
 	case "streamthumbcheck":
-		const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-1280x720.jpg`;
+		const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-1920x1080.jpg`;
 		let tlHttpOpts = {	method: "POST",
 					responseType: "json",
 					url: "https://api.deepai.org/api/nsfw-detector",
