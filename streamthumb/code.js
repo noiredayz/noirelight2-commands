@@ -1,5 +1,9 @@
+const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
+const {printtolog} = require(process.cwd()+"/lib/nlt-tools.js");
+const {nsfwCheckURL, thumbnailExists} = require(process.cwd()+"/lib/nlt-got.js");
+
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
-return new Promise ((resolve, reject) => {
+return new Promise (async (resolve, reject) => {
 
 let cmdline, incmd;
 
@@ -21,6 +25,7 @@ if (incmd.length===1){
 	resolve("streamthumb: Must specify a channel. Optionally you can specify an image height as second parameter (standard 16:9 resultions' height)");
 	return;
 } 
+let retval;
 switch(incmd[0]){
 	case "st":
 	case "streamthumb":
@@ -33,54 +38,56 @@ switch(incmd[0]){
 					resolve(`invalid resolution ${incmd[2]} valid ones are 160p 360p 480p 720p 1080p. Default is full HD.`);
 					return;
 				} else {
-					resolve(`https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-${resolutions[valid_heights.findIndex(i => i===incmd[2])]}.jpg`);
-					return;
+					retval = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-${resolutions[valid_heights.findIndex(i => i===incmd[2])]}.jpg`;
 				}
 			} else {
-				resolve(`https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-1920x1080.jpg`);
-				return;
+				retval = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-1920x1080.jpg`;
 		}
+		thumbnailExists(retval).then((d)=>{
+			if(d){
+				resolve(retval);
+				return;
+			} else {
+				resolve("channel is offline or doesn't have a thumbnail with that resolution yet. If the streamer just started streaming wait a few minutes.");
+				return;
+			}
+			}).catch((err) =>{
+				printtolog(LOG_WARN, `<streamthumb> http error while trying to check if thumbnaile exists: ${err}`);
+				resolve(`your thumbnail (might be 404, couldn't check it): ${retval}`);
+				return;
+			});
 		break;
 	case "stcheck":
 	case "streamthumbcheck":
 		const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${incmd[1].toLowerCase()}-1920x1080.jpg`;
-		let tlHttpOpts = {	method: "POST",
-					responseType: "json",
-					url: "https://api.deepai.org/api/nsfw-detector",
-					headers: {
-						"Api-Key": nlt.c.deepai_key
-					},
-					form: {
-						image: tURL
-					}
-				};
-		nlt.got(tlHttpOpts).json().then((data) => {
-			let retval="";
-			if(data.output.nsfw_score){
-				if(nlt.channels[target_channel].links===0)
-					retval = `Channel: #${incmd[1].toLowerCase()} NSFW score: ${nlt.util.floatToPercentText(data.output.nsfw_score)}%, detection(s): `;
-				else
-					retval = `Image: ${tURL} NSFW score: ${nlt.util.floatToPercentText(data.output.nsfw_score)}%, detection(s): `;
-				if (data.output.detections.length===0){
-					retval += "none";
-					resolve(retval);
-					return;
-				} else {
-					for(let i=0; i<data.output.detections.length;i++){
-						retval += `${shortCatText(data.output.detections[i].name)} (${nlt.util.floatToPercentText(data.output.detections[i].confidence)}%) `;
-					}
-					resolve(retval);
-					return;
-				}
-			}	
+		try{
+			retval = await thumbnailExists(tURL);
+		}
+		catch(err){
+			printtolog(LOG_WARN, `<streamthumb> http error while trying to check if thumbnaile exists: ${err}`);
+			resolve("couldn't check if the thumbnail for that channel exists, so not doing the NSFW check. You can still retrieve the thumb using st.");
+			return;
+		}
+		if(!retval){
+			resolve("channel is offline or doesn't have a thumbnail with that resolution yet. If the streamer just started streaming wait a few minutes.");
+			return;
+		}
+		nsfwCheckURL(tURL).then((data) => {
+			if(nlt.channels[target_channel].links===0){
+				resolve(`Channel: #${incmd[1].toLowerCase()} ${data}`);
+				return;
+			} else {
+				resolve(`Image: ${tURL} ${data}`);
+				return;
+			}
 		}).catch((errVal) => {
-			nlt.util.printtolog(4, `<twitchlotto> got/API error while trying to process the request: ${errVal}`);
-			reject(`got error while trying to run the API request.`);
+			nlt.util.printtolog(4, `<stcheck> got/API error while trying to process the request: ${errVal}`);
+			reject(`http error while trying to run the API request.`);
 		});
 		break;
 		default:
 			reject("internal command error (unknown alias)");
-			nlt.util.printtolog(4, `<streamthumb> invalid alias ${incmd[0]}`);
+			printtolog(LOG_WARN, `<streamthumb> invalid alias ${incmd[0]}`);
 		break;
 	}	
 
@@ -88,31 +95,3 @@ switch(incmd[0]){
 });
 }
 
-function shortCatText(inText){
-	switch(inText){
-		case "Male Breast - Exposed":
-			return "male breast";
-			break;
-		case "Male Genitalia - Exposed":
-			return "penis";
-			break;
-		case "Male Genitalia - Covered":
-			return "penis (covered)";
-			break;
-		case "Female Genitalia - Exposed":
-			return "vagina";
-			break;
-		case "Female Breast - Exposed":
-			return "breast";
-			break;
-		case "Female Breast - Covered":
-			return "covered breast";
-			break;
-		case"Buttocks - Exposed":
-			return "ass";
-			break;
-		default:
-			return inText;
-			break;
-	}
-}
