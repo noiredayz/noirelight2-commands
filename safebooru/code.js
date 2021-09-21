@@ -2,6 +2,8 @@ const {printtolog, getRndInteger, locateCharInStr, cleanupArray} = require(proce
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
 const sfbBaseURL = "https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=50&tags=";
 
+const cringeTags = ["loli", "shouta", "contentious_content", "furry", "furrification", "scalie"]; //to be expanded as necessary
+
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
 return new Promise ((resolve, reject) => {
 
@@ -33,6 +35,12 @@ if(cltl.includes("rating:safe") || cltl.includes("rating:explicit") || cltl.incl
 	resolve("why are you trying to find NSFW images on SAFEbooru again? Pepega Clap");
 	return;
 }
+for(const e of incmd){
+	if(cringeTags.findIndex(t => t===e.toLowerCase())!=-1){
+		resolve("your search contains at least one disallowed tags.");
+		return;
+	}
+}
 if(incmd.length>6){
 	resolve("5 tags maximum weirdEg");
 	return;
@@ -54,6 +62,13 @@ nlt.got(https_options).json().then((d) => {
 	}
 	let iidx = getRndInteger(0, d.length-1);
 	//resolve(`https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id+` https://safebooru.org//images/`+d[iidx].directory+`/`+d[iidx].image);
+	const tagArray = d[iidx].tags.split(" ");
+	for(const e of tagArray){
+	if(cringeTags.findIndex(t => t===e.toLowerCase())!=-1){
+		resolve("your search result contained at least one disallowed tags.");
+		return;
+	}
+}
 	resolve(`https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id);
 	return;
 	
