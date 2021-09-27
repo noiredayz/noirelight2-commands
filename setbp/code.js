@@ -34,7 +34,7 @@ switch(incmd[0]){
 			return;
 		}
 		nlt.channels[chid].bpapi="none";
-		nlt.maindb.insertQuery(`UPDATE channels SET bpapi_url='none' WHERE name='tch' AND context='twitch';`);
+		nlt.maindb.insertQuery(`UPDATE channels SET bpapi_url='none' WHERE name='${tch}' AND context='twitch';`);
 		resolve(`successfully disabled banphrase checking in twitch channel ${tch}`);
 		return;
 		break;
@@ -54,7 +54,7 @@ switch(incmd[0]){
 			return;
 		}
 		nlt.channels[chid].bpapi=incmd[2];
-		nlt.maindb.insertQuery(`UPDATE channels SET bpapi_url='${incmd[2]}' WHERE name='tch' AND context='twitch';`);
+		nlt.maindb.insertQuery(`UPDATE channels SET bpapi_url='${incmd[2]}' WHERE name='${tch}' AND context='twitch';`);
 		resolve(`successfully set the banphrase checking URL of twitch channel ${tch} to ${incmd[2]}`);
 		return;
 		break;
