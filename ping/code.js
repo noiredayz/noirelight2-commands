@@ -55,7 +55,7 @@ if (nlt.channels[target_channel].bpapi === "none")
 			bpapi = nlt.channels[target_channel].bpapi;	
 		stime = new Date;
 		try{
-			await nlt.ss["twitch"].pbotBanphraseCheck(bpapi, "ping :)");
+			await nlt.ss["twitch"].pbotBanphraseCheck(nlt.channels[target_channel].bpapi, "ping :)");
 		}	
 		catch(err){
 			bpping="(error)";
