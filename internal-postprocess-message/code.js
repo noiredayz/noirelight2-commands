@@ -86,17 +86,14 @@ return;
 function raid_broadcast(target_channel){
 	return new Promise(async (resolve, reject) => {
 	let cdata = nlt.cache.getd(`raid broadcast ${nlt.channels[target_channel].name}`);
-	console.log(`cdata: ${cdata}`);
 	if(cdata === undefined){
 		nlt.cache.setd(`raid broadcast ${nlt.channels[target_channel].name}`, "NaM", 60*60);
 		printtolog(LOG_DBG, `<raidb> Broadcasting raid ping in channel ${nlt.channels[target_channel].name}`);
 	} else {
-		printtolog(LOG_DBG, `<raidb> Already broadcasted in this channel.`);
 		resolve("already-broadcasted-here");
 		return;
 	}
 	let nlist = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE channelname='${nlt.channels[target_channel].name}' ORDER BY id ASC;`);
-	printtolog(LOG_DBG, `<raidb> Selected ${nlist.length} entries from the list`);
 	if(nlist.length===0 || nlist===-1 || !nlist) {
 		resolve("empty-list");
 		return;
