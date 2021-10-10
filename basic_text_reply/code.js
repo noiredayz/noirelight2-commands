@@ -53,6 +53,14 @@ switch(incmd[0]){
 	case 'commands':
 		resolve(`Okayeg https://noiresbot.noiredayz.link/bot/commands.html`);
 		break;
+	case 'trilaud':
+		if(nlt.channels[target_channel].links===0){
+			resolve("github/noiredayz/trilaud");
+			break;
+		} else {
+			resolve("https://github.com/noiredayz/trilaud");
+			break;
+		}
 	default:
 		nlt.util.printtolog(16, `<warn> Module basic_text_reply got an unknown command: ${incmd[0]}`);
 		reject(`internal command error (invalid alias ${incmd[0]})`);

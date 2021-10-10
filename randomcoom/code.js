@@ -43,7 +43,8 @@ if(chlist.length===0){
 	resolve("no booba streamers online FeelsBadMan");
 	return;
 }
-const ctarget = chlist[getRndInteger(0, chlist.length-1)];
+const tID = getRndInteger(0, chlist.length-1);
+const ctarget = chlist[tID];
 const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${ctarget.user_login}-1920x1080.jpg`;
 let retval;
 try{
@@ -66,7 +67,7 @@ catch(err){
 	reject("nsfw check failed monkaS");
 	return;
 }
-resolve(`forsenCoomer channel: @${ctarget.user_login} thumbnail: ${tURL} ${retval}`);
+resolve(`forsenCoomer channel: @${ctarget.user_login} (${tID}/${chlist.length}) thumbnail: ${tURL} ${retval}`);
 return;
 
 

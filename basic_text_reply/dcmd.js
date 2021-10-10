@@ -23,7 +23,7 @@ exports.noirelight2_command = {
 	numeric_data: null,
 	text_data: null,
 	extra_modules: null,
-	aliases: ['api', 'bot', 'version', 'node', 'channelmode', 'whatisthechannelmode', 'commands', 'nlt1', 'noirelight1', 'nlt2', 'noirelight2', 'website']
+	aliases: ['api', 'bot', 'version', 'node', 'channelmode', 'whatisthechannelmode', 'commands', 'nlt1', 'noirelight1', 'nlt2', 'noirelight2', 'trilaud', 'website']
 }
 
 exports.nlt2_cmd_help = {
@@ -39,6 +39,7 @@ exports.nlt2_cmd_help = {
 				 ["noirelight2", "The rewrite is good Copesen"],
 				 ["nlt1", "TrollDespair"],
 				 ["noirelight1", "TrollDespair"],
+				 ["trilaud", "TriHard !"],
 				 ["help", "Deprecated help command that will show outdated information"],
 				 ["commands", "Static and temporarly command list"],
 				 ["website", "Returns the web address of the bots website"]]
