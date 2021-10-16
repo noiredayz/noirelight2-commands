@@ -68,9 +68,9 @@ if (nlt.channels[target_channel].bpapi === "none")
 	}	
 
 if (incmd[0] === "extping" || incmd[0] === "eping")
-		resolve(`Pong! Mode: ${nlt.util.tlToStr(nlt.channels[target_channel].chmode)}, uptime: ${nlt.util.donktime(uptime)}, commands used (this session): ${cmds_used}, mem.usage: ${nlt.util.memusage()}, banphrase API: ${bpapi}, ${loadmsg}latency to ${pingtext}, cache: ${nlt.cache.stat(true).keyCount} keys`);
+		resolve(`Pong! Mode: ${nlt.util.tlToStr(nlt.channels[target_channel].chmode)}, uptime: ${nlt.util.donktime(uptime)}, commands used (this session): ${cmds_used}, mem.usage: ${nlt.util.memusage()}, banphrase API: ${bpapi}, ${loadmsg}latency to ${pingtext}, cache: ${nlt.cache.stat(true).keyCount} keys, 💣: ${nlt.timebombs}, 🔃: ${nlt.restarts[target_context]}`);
 	else 
-		resolve(`Pong! Mode: ${nlt.util.tlToStr(nlt.channels[target_channel].chmode)}, uptime: ${nlt.util.donktime(uptime)}, commands used (this session): ${cmds_used}, latency to ${pingtext}. See ${nlt.c.cmd_prefix}eping for more stats`);
+		resolve(`Pong! Mode: ${nlt.util.tlToStr(nlt.channels[target_channel].chmode)}, uptime: ${nlt.util.donktime(uptime)}, commands used (this session): ${cmds_used}, latency to ${pingtext}. 💣: ${nlt.timebombs}, 🔃: ${nlt.restarts[target_context]} See ${nlt.c.cmd_prefix}eping for more stats`);
 return;
 })
 }
