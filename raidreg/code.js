@@ -21,7 +21,7 @@ switch(target_context){
 		break;
 }
 let chlist;
-let rrows;
+let retval;
 try{
 	chlist = await nlt.got.get("https://huwobot.com/api/channels").json();
 }
@@ -31,9 +31,8 @@ catch(err){
 	return;
 }
 
-
 const chname = nlt.channels[target_channel].name;
-if(rrows.findIndex(r => r === chname)===-1){
+if(chlist.findIndex(r => r === chname)===-1){
 	resolve("This command can only be used in channels where HuwoBot is active.");
 	return;
 }
@@ -45,10 +44,24 @@ switch(incmd[0]){
 			return;
 		}
 		rrows = nlt.maindb.selectQuery(`SELECT * FROM raidreg WHERE username='${unick}';`);
-		if(rrows.length>5){
-			resolve(`you are already subscribed for a raid alert in the maximum of 5 channels.`);
+		if(rrows.length>3){
+			resolve(`you are already subscribed for a raid alert in the maximum of 3 channels.`);
 			return;
 		}
+		if(nlt.channels[target_channel].bpapi!="none"){
+			try{
+				retval = await nlt.ss["twitch"].pbotBanphraseCheck(nlt.channels[target_channels].bpapi, unick);
+			}
+			catch(err){
+				retval = {banned: false, failed: true};
+			}
+			if(retval.banned){
+				nlt.ss["twitch"].postmsg(target_channel, "Nice try kid, next time try to subscribe using a non-banphrased username.");
+				resolve("self-printing");
+				return;
+			}
+		}
+		
 
 })
 }`
