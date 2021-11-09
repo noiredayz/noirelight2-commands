@@ -32,7 +32,7 @@ if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "
 	resolve("handled");
 	return;
 }
-if (target_channel === nlt.chctl.findChannel("xoosd", "twitch") && unick === "KKooooooooool" && cmdline === "asd"){
+if (target_channel === nlt.chctl.findChannel("xoosd", "twitch") && unick === "kkooooooooool" && cmdline === "asd"){
 	nlt.ss["twitch"].postmsg(target_channel, `DinkDonk`);
 	resolve("handled");
 	return;
