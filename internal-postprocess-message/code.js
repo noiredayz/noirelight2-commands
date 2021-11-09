@@ -32,7 +32,13 @@ if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "
 	resolve("handled");
 	return;
 }
+if (target_channel === nlt.chctl.findChannel("xoosd", "twitch") && unick === "KKooooooooool" && cmdline === "asd"){
+	nlt.ss["twitch"].postmsg(target_channel, `DinkDonk`);
+	resolve("handled");
+	return;
+}
 
+ 
 if(unick==="huwobot"){
 	if(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'))){
 		raid_broadcast(target_channel).then((d) => {
