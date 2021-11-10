@@ -1,3 +1,7 @@
+const {printtolog} = require(process.cwd()+"/lib/nlt-tools.js");
+const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
+const {nsfwCheckURL} = require(process.cwd()+"/lib/nlt-got.js");
+
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
 return new Promise (async (resolve, reject) => {
 
@@ -19,102 +23,48 @@ if(nlt.channels[target_channel].links===0){
 	return;
 }
 
+let rrows, minID, maxID, tarID, tURL, checkdata;
 
-//TODO: handle target source channel as parameters
-//TODO: find out which row means which number
-
-
-function shortCatText(inText){
-	switch(inText){
-		case "Male Breast - Exposed":
-			return "male breast";
-			break;
-		case "Male Genitalia - Exposed":
-			return "penis";
-			break;
-		case "Male Genitalia - Covered":
-			return "penis (covered)";
-			break;
-		case "Female Genitalia - Exposed":
-			return "vagina";
-			break;
-		case "Female Breast - Exposed":
-			return "breast";
-			break;
-		case "Female Breast - Covered":
-			return "covered breast";
-			break;
-		case"Buttocks - Exposed":
-			return "ass";
-			break;
-		default:
-			return inText;
-			break;
+if (incmd.length > 1){
+	tarID = sources.findIndex(e => e.toLowerCase() === incmd[1].toLowerCase());
+	if(tarID === -1){
+		resolve(`invalid channel provided`);
+		return;
 	}
+	//extremely ineffective way, it is possible to do this as less pepege way? 
+	rrows = await nlt.tldb.PselectQuery(`SELECT * FROM tl WHERE src='${tarID}' ORDER BY RANDOM() LIMIT 1;`);
+} else {
+	rrows = await nlt.tldb.PselectQuery("SELECT MIN(id) AS minID FROM tl;");
+	minID = rrows[0].minID;
+	rrows = await nlt.tldb.PselectQuery("SELECT MAX(id) AS maxID FROM tl;");
+	maxID = rrows[0].maxID;
+
+	do {
+		//keep rerolling until we get a valid record. this mitigates possible holes in the db
+		//caused by necessary deletions like PedoBear, monkaTOS or personal information
+		tarID = nlt.util.getRndInteger(minID, maxID);
+		rrows = await nlt.tldb.PselectQuery(`SELECT * FROM tl WHERE id='${tarID}';`);
+	} while (rrows.length===0);
 }
-
-let rrows, minID, maxID, tarID, tURL;
-
-rrows = await nlt.tldb.PselectQuery("SELECT MIN(id) AS minID FROM tl;");
-if(!rrows || rrows.length===0){
-	nlt.util.printtolog(4, `<tl> sqlite error while selecting minimum ID`);
-	reject("sqlite error");
-	return;
-}
-minID = rrows[0].minID;
-rrows = await nlt.tldb.PselectQuery("SELECT MAX(id) AS maxID FROM tl;");
-if(!rrows || rrows.length===0){
-	nlt.util.printtolog(4, `<tl> sqlite error while selecting maximum ID`);
-	reject("sqlite error");
-	return;
-}
-maxID = rrows[0].maxID;
-
-tarID = nlt.util.getRndInteger(minID, maxID);
-//nlt.util.printtolog(4, `<tl> min: ${minID} max: ${maxID} target: ${tarID}`);
-
-rrows = await nlt.tldb.PselectQuery(`SELECT * FROM tl WHERE id='${tarID}';`);
-//nlt.util.printtolog(4, JSON.stringify(rrows));
-if(!rrows || rrows.length===0){
-	nlt.util.printtolog(4, `<tl> sqlite error while selecting an image for tl`);
-	reject("sqlite error");
-	return;
-}
-
 tURL = rrows[0].url;
+if(tURL.startsWith("http:")) tURL = tURL.replace("http", "https");
 
-let tlHttpOpts = {	method: "POST",
-					responseType: "json",
-					url: "https://api.deepai.org/api/nsfw-detector",
-					headers: {
-						"Api-Key": nlt.c.deepai_key
-					},
-					form: {
-						image: tURL
-					}
-				};
-nlt.got(tlHttpOpts).json().then((data) => {
-	//nlt.util.printtolog(4, `<tl> TriDance we received data: ${JSON.stringify(data)}`);
-	let retval="";
-	if(data.output.nsfw_score){
-		retval = `Image: ${tURL} NSFW score: ${nlt.util.floatToPercentText(data.output.nsfw_score)}%, detection(s): `;
-		if (data.output.detections.length===0){
-			retval += "none";
-			resolve(retval);
-			return;
-		} else {
-			for(let i=0; i<data.output.detections.length;i++){
-				retval += `${shortCatText(data.output.detections[i].name)} (${nlt.util.floatToPercentText(data.output.detections[i].confidence)}%) `;
-			}
-			resolve(retval);
-			return;
-		}
-	}	
-}).catch((errVal) => {
-	nlt.util.printtolog(4, `<twitchlotto> got/API error while trying to process the request: ${errVal}`);
-	reject(`got error while trying to run the API request.`);
-});
+try {
+	checkdata = await nsfwCheckURL(tURL);
+}
+catch(err){
+	printtolog(LOG_WARN, `<tl> Error while trying to NSFW check ${tURL}: ${err}`);
+	reject("NSFW API check failed monkaS");
+	return;
+}
+
+if(incmd.length===1)
+	resolve(`Channel: ${sources[rrows[0].src].toLowerCase()} Image: ${tURL} ${checkdata}`);
+else	
+	resolve(`Image: ${tURL} ${checkdata}`);
 
 })
 }
+
+const sources = ["Admiralbulldog","Alinity","Andymilonakis","Asmongold","Athenelive","B0aty","Becca","C9sneaky","Cdewx","Celeste","Cowsep","Dansgaming","Darksydephil","Dekar173","Demolition_d","Destinygg","Eloise","Forsen","Geersart","Greekgodx","Grossie_gore","Iam_choa","Ice_poseidon","Jaxerie","Kaceytron","Legendarylea","Loltyler1","Meteos","Mitchjones","Nani","Naniwasc2","Nmplol","Nymn","Pajlada","Reckful","Sick_nerd","Singsing","Sodapoppin","Xqcow"];
 
