@@ -1,4 +1,4 @@
-const {printtolog} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, cleanupArray} = require(process.cwd()+"/lib/nlt-tools.js");
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
 const {nsfwCheckURL} = require(process.cwd()+"/lib/nlt-got.js");
 
@@ -11,6 +11,7 @@ switch(target_context){
 	case "twitch":
 		cmdline = fullmsg.messageText.substr(1);	//full message excluding the prefix
 		incmd 	= cmdline.split(" ");				//same but split
+		incmd	= cleanupArray(incmd);
 		break;
 	//placeholder for other contexts that may require extra handling Okayeg
 	default:
