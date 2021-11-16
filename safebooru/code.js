@@ -31,7 +31,7 @@ if(incmd.length===1){
 }
 
 const cltl = cmdline.toLowerCase();
-if(cltl.includes("rating:safe") || cltl.includes("rating:explicit") || cltl.includes("-rating:safe")){
+if(cltl.includes("rating:questionable") || cltl.includes("rating:explicit") || cltl.includes("-rating:safe")){
 	resolve("why are you trying to find NSFW images on SAFEbooru again? Pepega Clap");
 	return;
 }
@@ -67,9 +67,12 @@ nlt.got(https_options).json().then((d) => {
 	if(cringeTags.findIndex(t => t===e.toLowerCase())!=-1){
 		resolve("your search result contained at least one disallowed tags.");
 		return;
+		}
 	}
-}
-	resolve(`https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id);
+	const tstamp = new Date(d[iidx].change*1000);
+	let scorestr="";
+	if(d[iidx].score) scorestr = "score: "+d[iidx].score;	//shit's null all the time, even if you search for score:4 for example. API error?
+	resolve(`[${iidx+1}/${d.length}] Uploaded: ${tstamp.toUTCString()}${scorestr} 🖼 https://safebooru.org/index.php?page=post&s=view&id=`+d[iidx].id);
 	return;
 	
 }).catch((err) => {
