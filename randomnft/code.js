@@ -72,7 +72,7 @@ nlt.maindb.insertQuery(`INSERT INTO nft
 						VALUES
 						('${tUID}', '${tdata.name}', '${tdata.permalink}', '${tth}', '${tdata.description}') ;`);
 						
-resolve(`your NFT (don't steal ;) ): ${tdata.name} https://noiresbot.noiredayz.link/bot/nft.php?id=${tUID}`);
+resolve(`your random NFT from https://opensea.io (don't steal ;) ): ${tdata.name} https://noiresbot.noiredayz.link/bot/nft.php?id=${tUID}`);
 })
 }
 

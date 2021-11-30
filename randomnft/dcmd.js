@@ -14,9 +14,9 @@ exports.noirelight2_command = {
 	errmsg: "cannot run command nam",
 	nlt2_compatible: true,
 	cooldowns: {
-				global: 5,
-				channel: 10,
-				user: 10
+				global: 15,
+				channel: 20,
+				user: 20
 				},
 	minternal: 0,
 	mgreenlist: 0,
