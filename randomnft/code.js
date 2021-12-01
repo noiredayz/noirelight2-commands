@@ -29,22 +29,25 @@ if(nlt.channels[target_channel].links==0){
 	return;
 }
 
-const https_options = {
-	method: "GET",
-	url: apiURL,
-	headers: { "user-agent": nlt.c.userAgent },
-	timeout: 3000,
-	retry: 1};
+let retval = nlt.cache.getd("opensea-assets");
+if(!retval){
+	const https_options = {
+		method: "GET",
+		url: apiURL,
+		headers: { "user-agent": nlt.c.userAgent },
+			timeout: 3000,
+		retry: 1};
 	
-let retval;
-try {
-	retval = await nlt.got(https_options);
-	retval = JSON.parse(retval.body);
-}
-catch(err){
-	printtolog(LOG_WARN, `<randomnft> http error while trying to GET from opensea API: ${err}`);
-	reject("http error while trying to get a new NFT from the API.");
-	return;
+	try {
+		retval = await nlt.got(https_options);
+		retval = JSON.parse(retval.body);
+	}
+	catch(err){
+		printtolog(LOG_WARN, `<randomnft> http error while trying to GET from opensea API: ${err}`);
+		reject("http error while trying to get a new NFT from the API.");
+		return;
+	}
+	nlt.cache.setd("opensea-assets", retval, 120);
 }
 
 let tdata, tdrows;
@@ -67,10 +70,13 @@ else
 	tth = tdata.image_thumbnail_url;
 const tUID = getNewUID();
 
+const tname = tdata.name.replaceAll("'", "''");
+const tdesc = tdata.description ? tdata.description.replaceAll("'", "''") : "(no description)";
+
 nlt.maindb.insertQuery(`INSERT INTO nft
 						(uid, title, link, thumbnail, desc)
 						VALUES
-						('${tUID}', '${tdata.name}', '${tdata.permalink}', '${tth}', '${tdata.description}') ;`);
+						('${tUID}', '${tname}', '${tdata.permalink}', '${tth}', '${tdesc}') ;`);
 						
 resolve(`your random NFT from https://opensea.io (don't steal ;) ): ${tdata.name} https://noiresbot.noiredayz.link/bot/nft.php?id=${tUID}`);
 })
