@@ -1,3 +1,7 @@
+const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
+const {printtolog} = require(process.cwd()+"/lib/nlt-tools.js");
+
+
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
 return new Promise ((resolve, reject) => {
 
