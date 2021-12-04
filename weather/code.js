@@ -81,8 +81,9 @@ function prectostr(inval){
 function mdtostr(mdeg){
 	if(!mdeg) return "~";
 	const step = 22.5;
-	const dirs = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N"];
+	const start = 11.25;
+	const dirs = ["NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 	
 	if((mdeg>=348.75 && mdeg<360) || (mdeg>=0 && mdeg<11.25)) return "N";
-	return dirs[Math.floor(mdeg/step)];
+	return dirs[Math.floor((mdeg-start)/step)];
 }
