@@ -60,7 +60,7 @@ if(nlt.channels[chid].bpapi==="none"){
 
 nlt.ss["twitch"].pbotBanphraseCheck(nlt.channels[chid].bpapi, cmdline.substr(nlt.util.locateCharInStr(cmdline, " ", 2)+1)).then((retval) =>{
 	if(retval.banned){
-		resolve(`MODS 👉 id: ${retval.banphrase_data.id}, name: ${retval.banphrase_data.name}, phrase: "${retval.banphrase_data.phrase.substring(0, 30)}", length ${nlt.util.donktime(Number(retval.banphrase_data.length))}, perma: ${retval.banphrase_data.permanent}, operator: ${retval.banphrase_data.operator}, case sensitive: ${retval.banphrase_data.case_sensitive}, subs immune: ${retval.banphrase_data.sub_immunity}, removes accents: ${retval.banphrase_data.remove_accents}`);
+		resolve(`MODS 👉 id: ${retval.banphrase_data.id}, name: ${retval.banphrase_data.name}, phrase: "${retval.banphrase_data.phrase.length>30 ? retval.banphrase_data.phrase.substring(0, 30)+"(...)" : retval.banphrase_data.phrase}", length ${nlt.util.donktime(Number(retval.banphrase_data.length))}, perma: ${retval.banphrase_data.permanent}, operator: ${retval.banphrase_data.operator}, case sensitive: ${retval.banphrase_data.case_sensitive}, subs immune: ${retval.banphrase_data.sub_immunity}, removes accents: ${retval.banphrase_data.remove_accents}`);
 		return;
 	}
 	else {
