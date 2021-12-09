@@ -54,7 +54,7 @@ const ww = JSON.parse(body);
 
 let retval = `current weather of ${ww.name}: ${ww.weather[0].description}, ${ww.main.temp}°C (feels like ${ww.main.feels_like}°C), pressure: ${ww.main.pressure}mbar, humidity: ${ww.main.humidity}%, wind: ${(ww.wind.speed*3.6).toFixed(1)} km/h (${mdtostr(ww.wind.deg)}), ${cwg(ww.wind.gust)}cloudy: ${ww.clouds.all}%`;
 if(ww.rain) retval += `, rain(last h): ${ww.rain["1h"]}mm`;
-if(ww.snow) retval += `, snow(last h}: ${ww.snow["1h"]}mm`;
+if(ww.snow) retval += `, snow(last h): ${ww.snow["1h"]}mm`;
 resolve(retval);
 
 
@@ -85,5 +85,5 @@ function mdtostr(mdeg){
 	const dirs = ["NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 	
 	if(mdeg>=348.75 || mdeg<11.25) return "N";
-	return dirs[Math.floor((mdeg-start)/step)];
+	return dirs[Math.round((mdeg-start)/step)];
 }
