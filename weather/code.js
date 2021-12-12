@@ -85,5 +85,5 @@ function mdtostr(mdeg){
 	const dirs = ["NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 	
 	if(mdeg>=348.75 || mdeg<11.25) return "N";
-	return dirs[Math.round((mdeg-start)/step)];
+	return dirs[Math.floor((mdeg-start)/step)];
 }
