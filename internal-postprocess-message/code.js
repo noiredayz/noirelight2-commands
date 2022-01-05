@@ -47,7 +47,8 @@ if(unick==="huwobot"){
 		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid detected`);
 		if(!nlt.cache.getd("raid-self-join")){
 			nlt.cache.setd("raid-self-join", "NaM", 60*20);
-			nlt.ss["twitch"].postmsg(target_channel, "+join SirShield FeelsDankMan SirSword");
+			//TODO: add option for this
+			//nlt.ss["twitch"].postmsg(target_channel, "+join SirShield FeelsDankMan SirSword");
 			printtolog(LOG_DBG, `<debug> IPPM: joining raid in #${nlt.channels[target_channel].name}`);
 		} else {
 			printtolog(LOG_DBG, `<debug> IPPM: not joining in #${nlt.channels[target_channel].name}, already joined the raid somewhere else`);
@@ -56,6 +57,7 @@ if(unick==="huwobot"){
 		return;
 	}
 	
+	/* TODO: move broadcast to bots channel or add an option for this
 	if(cmdline.includes("failed to beat the raid level")){
 		nlt.ss["twitch"].postmsg(target_channel, `UnSane`);
 		resolve("handled");
@@ -66,6 +68,7 @@ if(unick==="huwobot"){
 		resolve("handled");
 		return;
 	}
+	*/
 }
 
 if(unick==="noiredayz"){

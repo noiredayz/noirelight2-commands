@@ -43,7 +43,18 @@ if(chlist.length===0){
 	resolve("no booba streamers online FeelsBadMan");
 	return;
 }
-const tID = getRndInteger(0, chlist.length-1);
+
+let tID, previd = nlt.cache.getd("randomcoom-last-num");
+if(!previd || chlist.length===1)
+	tID = getRndInteger(0, chlist.length-1);
+else
+	do{
+		tID = getRndInteger(0, chlist.length-1);
+		if(tID != previd)
+		continue;
+	} while (tID === previd);
+nlt.cache.deld("randomcoom-last-num")
+nlt.cache.setd("randomcoom-last-num", tID, 120);
 const ctarget = chlist[tID];
 const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${ctarget.user_login}-1920x1080.jpg`;
 let retval;
