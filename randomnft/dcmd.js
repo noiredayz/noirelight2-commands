@@ -23,7 +23,7 @@ exports.noirelight2_command = {
 	numeric_data: null,
 	text_data: null,
 	extra_modules: null,
-	aliases: null
+	aliases: ["nft", "rnft"]
 }
 
 exports.nlt2_cmd_help = {
