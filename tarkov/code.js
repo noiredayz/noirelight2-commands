@@ -54,7 +54,7 @@ if(data[1].length>0){
 let eftIssues = 0;
 if(data[2].length>0){
 	for(const g of data[2]){
-		if(g.type != 0) eftIssues++;
+		if(!g.solveTime) eftIssues++;
 	}
 	if(eftIssues===0){
 		retval += "No actual, unresolved issues. Check website for past incidents. ";
