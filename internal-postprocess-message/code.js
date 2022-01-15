@@ -48,7 +48,7 @@ if(unick==="huwobot"){
 		if(!nlt.cache.getd("raid-self-join")){
 			nlt.cache.setd("raid-self-join", "NaM", 60*20);
 			//TODO: add option for this
-			//nlt.ss["twitch"].postmsg(target_channel, "+join SirShield FeelsDankMan SirSword");
+			nlt.ss["twitch"].postmsg(target_channel, "+join");
 			printtolog(LOG_DBG, `<debug> IPPM: joining raid in #${nlt.channels[target_channel].name}`);
 		} else {
 			printtolog(LOG_DBG, `<debug> IPPM: not joining in #${nlt.channels[target_channel].name}, already joined the raid somewhere else`);
