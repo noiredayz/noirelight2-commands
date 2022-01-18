@@ -6,9 +6,9 @@
 
 exports.noirelight2_command = {
 	SAPI: 0.2,
-	mname: "trilaud",
+	mname: "trilaud stats",
 	mdesc: "ANY GIFTAZ? WideHardo",
-	cmdname: "trilaud",
+	cmdname: "trilaudstats",
 	pipeable: 0,
 	clearance: 0,
 	errmsg: "cannot run command nam",
