@@ -38,17 +38,14 @@ catch(err){
 if(data[0].length>0){
 	retval += "Server(s): "
 	for(i=0;i<data[0].length;i++){
-		retval += data[0][i].name+" "+serverStatusToEmoji(data[0][i].status);
-		if(i!=data[0].length-1) retval+= ", ";
-		else retval += " ";
+		retval += serverStatusToEmoji(data[0][i].status);
+		if(i===data[0].length-1) retval+= " ";
 	}
 }
 if(data[1].length>0){
 	retval += "Service status: ";
 	for(i=0;i<data[1].length;i++){
-		retval += data[1][i].name+" "+serverStatusToEmoji(data[1][i].status);
-		if(i!=data[1].length-1) retval+= ", ";
-		else retval += " ";
+		retval += data[1][i].name+" "+serverStatusToEmoji(data[1][i].status)+" ";
 	}
 }
 let eftIssues = 0;
@@ -65,7 +62,9 @@ if(data[2].length>0){
 	}
 }
 const retTime = Number(data[3].body);
-retval += `(${donktime(getunixtime()-retTime)} ago) KKomrade 👉🏽 https://status.escapefromtarkov.com/`;
+if((getunixtime()-retTime) > 0)
+	retval += `(${donktime(getunixtime()-retTime)} ago) `;
+retval += `KKomrade 👉🏽 https://status.escapefromtarkov.com/`;	
 resolve(retval);
 
 
@@ -75,11 +74,11 @@ resolve(retval);
 function serverStatusToEmoji(inStatus){
 	switch(inStatus){
 		case 0:
-			return "🟢";
+			return "[✓]";
 		case 1:
-			return "🟡";
+			return "[∼]";
 		case 2:
-			return "🔴";
+			return "[✗]";
 		default:
 			return `(unknown - code ${inStatus})`;
 	}
