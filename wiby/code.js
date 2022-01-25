@@ -14,18 +14,13 @@ switch(target_context){
 		incmd	= cmdline.split(" ");
 		break;
 }
-if(nlt.channels[target_channel].links===0){
-	resolve("this command cannot be used in channels where links are disabled.");
-	return;
-}
-
  
 const wiby_url = "https://wiby.me/json/?q="; 
  
 let sIndex, sText;
 
 if (incmd.length === 1 || (incmd.length < 4 && incmd[1]==="-i")){
-	resolve(`usage:  ${nlt.c.cmd_prefix}wiby <search term> or ${nlt.c.cmd_prefix}wiby -i <index> <search term>`);
+	resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `usage:  ${nlt.c.cmd_prefix}wiby <search term> or ${nlt.c.cmd_prefix}wiby -i <index> <search term>`});
 	return;
 }
 if (incmd[1] === "-i"){
@@ -33,12 +28,12 @@ if (incmd[1] === "-i"){
 		sIndex = nlt.util.getRndInteger(0, 11);
 	} else {
 		if(isNaN(incmd[2])){
-			resolve(`index must be an integer from 0 to 11 or "random"`);
+			resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `index must be an integer from 0 to 11 or "random"`});
 			return;
 		}
 		sIndex = Number(incmd[2]);
 		if (!Number.isInteger(sIndex) || (sIndex<0 || sIndex>11)){
-			resolve(`index must be an integer from 0 to 11 or "random"`);
+			resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `index must be an integer from 0 to 11 or "random"`});
 			return;
 		}
 	}
@@ -50,19 +45,22 @@ if (incmd[1] === "-i"){
 
 nlt.got.get(`${wiby_url}${sText}`).json().then((retval) => {
 	if(retval.length === 0){
-		resolve(`wiby.me didn't find any webpages fitting your query`);
+		resolve({status: "failed", hasLink: false, setCooldown: "normal", msg: `wiby.me didn't find any webpages fitting your query`});
 		return
 	}
 	else {	
 		if(incmd[1] === "-i" && (sIndex > retval.length-1))
 			sIndex = slb.util.getRndInteger(0, retval.length-1);	//rerolling index if the user specified a number larget than the max results
-		resolve(`your Web 1.0 page (from wiby.me ): ${retval[sIndex].URL} ${retval[sIndex].Title}`);	
+		resolve({status: "ok",
+				 hasLink: true,
+				 setCooldown: "normal",
+				 msg: `your Web 1.0 page (from wiby.me ): ${retval[sIndex].URL} ${retval[sIndex].Title}`});	
 		return;
 	}	
 		
 }).catch((errVal) => {
 	nlt.util.printtolog(4, `<wiby> Error while trying to search for ${sText}: ${errVal}`);
-	reject(`HTTP error while trying to search for your query.`);
+	reject({status: "errored", err: errVal});
 });
 return;
 
