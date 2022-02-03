@@ -21,30 +21,26 @@ switch(target_context){
 		//incmd	= cmdline.split(" ");
 		break;
 }
-if(nlt.channels[target_channel].links===0){
-	resolve("this command cannot be used in channels where links are disabled.");
-	return;
-}
 
 if(incmd.length===1){
-	resolve("please specify at least an emote name to search for.");
+	resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `Usage: ${nlt.c.cmd_prefix+incmd[0]} <emote name>`});
 	return;
 }
 const scmd = parseCmdParam(cmdline.substr(locateCharInStr(cmdline, " ")+1));
 if(!scmd){
-	reject("unable to parse parameters.");
+	reject({status: "errored", err: new Error("unable to parse parameters")});
 	return;
 }
 if(scmd.freestr.length===0){
-	resolve("please specify an emote name to search for.");
+	resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `You must specify an emote name to search for Weirdga`});
 }
 if(scmd.i){
 	if(isNaN(scmd.i) && scmd.i!="random"){
-		resolve("index must be a number from 1 to "+searchLimit+" or 'random'");
+		resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `Index must be a number from 1 to ${searchlimit} or "random"`});
 		return;
 	}
 	if(scmd.i<1 || scmd.i>searchLimit || !Number.isInteger(scmd.i)){
-		resolve("index must be a whole number from 1 to "+searchLimit+" or 'random'");
+		resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `Index must be a number from 1 to ${searchlimit} or "random"`});
 		return;
 	}
 }
@@ -55,7 +51,7 @@ if(scmd.i){
 })
 }
 
-function generateSearchQuery(searchfor, pagesize, globalstate, sortby, sortorder, channelemote, author){
+function generateSearchQuery(searchfor, pagesize=searchLimit, globalstate=0, sortby="popularity", sortorder=0, channelemote="", author=""){
 	return {
 	"query":"query($query: String!,$page: Int,$pageSize: Int,$globalState: String,$sortBy: String,$sortOrder: Int,$channel: String,$submitted_by: String,$filter: EmoteFilter) {search_emotes(query: $query,limit: $pageSize,page: $page,pageSize: $pageSize,globalState: $globalState,sortBy: $sortBy,sortOrder: $sortOrder,channel: $channel,submitted_by: $submitted_by,filter: $filter) {id,visibility,owner {id,display_name,role {id,name,color},banned}name,tags}}",
 	"variables":{

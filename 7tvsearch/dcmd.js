@@ -23,7 +23,7 @@ exports.noirelight2_command = {
 	numeric_data: null,
 	text_data: null,
 	extra_modules: null,
-	aliases: ["7tv"]
+	aliases: ["7tv", "zyrwootsearch"]
 }
 
 exports.nlt2_cmd_help = {
