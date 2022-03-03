@@ -68,7 +68,7 @@ if(!utdata){
 const u = utdata[0];
 retval += `@${u.user_login} `;
 if(u.user_login.toLowerCase() != u.user_name.toLowerCase()) retval += `(${u.user_name}) `;
-retval += `is currently streaming ${u.game_name} (${u.type}) for ${u.viewer_count} viewers. Stream started `;
+retval += `is currently streaming ${u.game_name?u.game_name:"without category"} "${u.title?u.title:'(no title)'}" for ${u.viewer_count} viewers. Stream started `;
 const uptime = donktime(Math.round((new Date/1000) - (new Date(u.started_at)/1000)));
 retval += `${uptime} ago.`;
 resolve(dcmdr("success", false, "normal", retval));
