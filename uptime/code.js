@@ -26,18 +26,21 @@ if(incmd.length<2 && target_context != "twitch"){
 }
 
 let target;
-if(incmd.length<2) target = nlt.channels[target_channel].name;
-else if (!validateTwitchUsername(incmd[1])){
+if(incmd.length<2){
+	target = nlt.channels[target_channel].name;
+} else {
+	 if (!validateTwitchUsername(incmd[1])){
 		resolve(dcmdr("failed", false, "cmdfail", `parameter is not a valid twitch username`));
 		return;
 	} else {
 		target = incmd[1];
 	}
+}
 
 let retval="", udata, utdata;
 
 try{
-	udata = await helixGetData("users", "login="+incmd[1]);
+	udata = await helixGetData("users", "login="+target);
 }
 catch(err){
 	printtolog(LOG_WARN, `<helix> Error in whois command: ${err}`);
