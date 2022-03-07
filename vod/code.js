@@ -40,7 +40,7 @@ if(incmd.length<2){
 let retval="", udata, voddata;
 
 try{
-	udata = await helixGetData("users", "login="+target+"&type=archive");
+	udata = await helixGetData("users", "login="+target);
 }
 catch(err){
 	printtolog(LOG_WARN, `<helix> Error in whois command: ${err}`);
@@ -54,7 +54,7 @@ if(!udata){
 const tID = udata[0].id;
 
 try{
-	voddata = await helixGetData("videos", "user_id="+tID);
+	voddata = await helixGetData("videos", "user_id="+tID+"&type=archive");
 }
 catch(err){
 	printtolog(LOG_WARN, `<helix> Error in whois command: ${err}`);
