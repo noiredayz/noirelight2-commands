@@ -1,6 +1,6 @@
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const {printtolog, donktime, getunixtime, getRndInteger} = require(process.cwd()+"/lib/nlt-tools.js");
-const {getRandomUserAgent, nsfwCheckURL, thumbnailExists} = require(process.cwd()+"/lib/nlt-got.js");
+const {printtolog, donktime, getunixtime, getRndInteger, dcmdr} = require(process.cwd()+"/lib/nlt-tools.js");
+const {getRandomUserAgent, nsfwCheckURL, thumbnailExists, helixGetData} = require(process.cwd()+"/lib/nlt-got.js");
 
 
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
@@ -55,19 +55,25 @@ else
 	} while (tID === previd);
 nlt.cache.deld("randomcoom-last-num")
 nlt.cache.setd("randomcoom-last-num", tID, 120);
-const ctarget = chlist[tID];
-const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${ctarget.user_login}-1920x1080.jpg`;
+let hxdata;
+hxdata = await helixGetData("users", "id="+chlist[tID].user_id);
+if(!hxdata){
+	resolve(dcmdr("failed", false, "failed", "inconsistent data monkaS (API returned a user ID that cannot be queried, is the streamer banned?)"));
+	return;
+}
+const ctarget = hxdata[0].login;
+const tURL = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${ctarget}-1920x1080.jpg`;
 let retval;
 try{
 	retval = await thumbnailExists(tURL);
 }
 catch(err){
-	printtolog(LOG_WARN, `<streamthumb> http error while trying to check if thumbnaile exists: ${err}`);
-	resolve(`rolled channel @${ctarget.user_login} but couldn't check if its thumbnail is available, so not doing the nsfw check. You can still get the thumb using ${nlt.c.cmd_prefix}st ${ctarget.user_login}`);
+	printtolog(LOG_WARN, `<streamthumb> http error while trying to check if thumbnail exists: ${err}`);
+	resolve(`rolled channel @${ctarget} but couldn't check if its thumbnail is available, so not doing the nsfw check. You can still get the thumb using ${nlt.c.cmd_prefix}st ${ctarget.user_login}`);
 	return;
 }
 if(!retval){
-	resolve(`rolled channel @${ctarget.user_login} is offline or doesn't have a thumbnail yet.`);
+	resolve(`rolled channel @${ctarget} is offline or doesn't have a thumbnail yet.`);
 	return;
 }
 try{
@@ -78,7 +84,7 @@ catch(err){
 	reject("nsfw check failed monkaS");
 	return;
 }
-resolve(`forsenCoomer channel: @${ctarget.user_login} (${tID}/${chlist.length}) thumbnail: ${tURL} ${retval}`);
+resolve(`forsenCoomer channel: @${ctarget} (${tID}/${chlist.length}) thumbnail: ${tURL} ${retval}`);
 return;
 
 
