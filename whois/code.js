@@ -40,6 +40,7 @@ helixGetData("users", "login="+incmd[1]).then((data) => {
 	retval = `@${d.login}`;
 	if(d.login != d.display_name.toLowerCase()) retval+=` (${d.display_name})`;
 	if(d.broadcaster_type) retval += `, role: ${d.broadcaster_type}`;
+	if(d.type) retval += `(${d.type}) `;
 	retval+= `, ID: ${d.id}, account created at: ${d.created_at.substr(0, 10)}, channel description: ${d.description?d.description:"(empty)"}`;
 	resolve(dcmdr("success", false, "normal", retval));
 	return;
