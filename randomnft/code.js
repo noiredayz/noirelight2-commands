@@ -1,9 +1,9 @@
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const {printtolog, getRndInteger} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, getRndInteger, stringCheck} = require(process.cwd()+"/lib/nlt-tools.js");
 const crypto = require("crypto");
 
 const maxThumbnailSizeMB = 1;
-const apiURL ="https://api.opensea.io/api/v1/assets";
+//const apiURL ="https://api.opensea.io/api/v1/assets";
 const thumbReplacement = "https://i.nuuls.com/1zM7z.jpeg";	//ZULUL
 
 
@@ -29,13 +29,17 @@ if(nlt.channels[target_channel].links==0){
 	return;
 }
 
+if(!stringCheck(nlt.c.fakeOpenSea)){
+	reject("missing fake openSEA API provider from the config");
+}
+
 let retval = nlt.cache.getd("opensea-assets");
 if(!retval){
 	const https_options = {
 		method: "GET",
-		url: apiURL,
+		url: nlt.c.fakeOpenSea,
 		headers: { "user-agent": nlt.c.userAgent },
-			timeout: 3000,
+			timeout: 1000,
 		retry: 1};
 	
 	try {
@@ -43,8 +47,8 @@ if(!retval){
 		retval = JSON.parse(retval.body);
 	}
 	catch(err){
-		printtolog(LOG_WARN, `<randomnft> http error while trying to GET from opensea API: ${err}`);
-		reject("http error while trying to get a new NFT from the API.");
+		printtolog(LOG_WARN, `<randomnft> http error while trying to GET from mock API: ${err}`);
+		reject("http error while trying to access provider.");
 		return;
 	}
 	nlt.cache.setd("opensea-assets", retval, 120);
