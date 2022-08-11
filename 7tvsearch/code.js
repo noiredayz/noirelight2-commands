@@ -103,13 +103,13 @@ let eidx=0;
 nlt.got(httpsOptions).then((result) =>{
 		switch(result.statusCode){
 			case 404:
-				dcmdr("cmdfail", false, "normal", "no emote found with your query.");
+				resolve(dcmdr("cmdfail", false, "normal", "no emote found with your query."));
 				return;
 			case 200:
 				//emote found PagMan
 				break;
 			default:
-				dcmdr("errored", false, "error", `7tv API returned with an unexpected response code (${result.statusCode})`);
+				resolve(dcmdr("errored", false, "error", `7tv API returned with an unexpected response code (${result.statusCode})`));
 				return;
 			}
 		const d = JSON.parse(result.body);		
