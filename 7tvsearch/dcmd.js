@@ -27,7 +27,7 @@ exports.noirelight2_command = {
 }
 
 exports.nlt2_cmd_help = {
-	shorthelp: "Usage: 7tv <options> <emote name or tag> See the full help on the commands list website for accepted parameters.",
-	exthelp: "Usage: 7tv <options> <emote name or tag> See the full help on the commands list website for accepted parameters."
+	shorthelp: "Usage: 7tv <-i index from 1 to 100 or random> <emote name or tag> Search for emotes on the third party thing YEAHBUT7TV",
+	exthelp: "Usage: 7tv <-i index from 1 to 100 or random> <emote name or tag> Search for emotes on the third party thing YEAHBUT7TV"
 }
 
