@@ -1,7 +1,0 @@
--limit [uint 1-??? ask anatole]
--global [include, only, no]
--sort [total, createdat]
--order [asc, desc]
--channel [yes, no]
--author [string]
--i [1-$limit or random]
