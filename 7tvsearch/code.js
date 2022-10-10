@@ -26,6 +26,8 @@ switch(target_context){
 }
 
 let tIDX = 1;
+let sOrder = "age";
+let sDirection = 0;	//0 descending, 1 ascending
 
 if(incmd.length===1){
 	resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `Usage: ${nlt.c.cmd_prefix+incmd[0]} <emote name>`});
@@ -40,9 +42,18 @@ if(scmd.freestr.length===0){
 	resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `You must specify an emote name to search for Weirdga`});
 	return;
 }
-printtolog(LOG_DBG, `<debug> 7tv: freestring is "${scmd.freestr}"`);
+
+if(scmd.order){
+	for(const x of ["pop", "popular", "popularity"]){
+		if(scmd.order === x) sOrder = "popularity";
+	}
+}
+
+if(scmd.dir === 1 || scmd.d === 1){
+	sDirection = 1;
+}
+
 if(scmd.i){
-	printtolog(LOG_DBG, `<debug> 7tv: index specified: "${scmd.i}"`);
 	switch(typeof(scmd.i)){
 		case "string":
 			if(scmd.i.toLowerCase()!="random"){
@@ -72,7 +83,6 @@ if(scmd.author){
 }
 
 const searchEmote = scmd.freestr.split(" ")[0];
-printtolog(LOG_DBG, `<debug> 7tv: searching for "${searchEmote}"`);
 const NaM = {"query":"query($query: String!,$page: Int,$pageSize: Int,$globalState: String,$sortBy: String,$sortOrder: Int,$channel: String,$submitted_by: String,$filter: EmoteFilter) {search_emotes(query: $query,limit: $pageSize,page: $page,pageSize: $pageSize,globalState: $globalState,sortBy: $sortBy,sortOrder: $sortOrder,channel: $channel,submitted_by: $submitted_by,filter: $filter) {id,visibility,urls,owner {id,display_name,role {id,name,color},banned}urls,name,tags}}",
 			 "variables":{
 				 "query": searchEmote,
@@ -80,8 +90,8 @@ const NaM = {"query":"query($query: String!,$page: Int,$pageSize: Int,$globalSta
 				 "pageSize":searchLimit,
 				 "limit":searchLimit,
 				 "globalState": "hide",
-				 "sortBy":"age",
-				 "sortOrder":1,
+				 "sortBy": sOrder,
+				 "sortOrder": sDirection,
 				 "channel":null,
 				 "submitted_by": null}
 			};
