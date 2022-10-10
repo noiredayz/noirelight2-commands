@@ -67,7 +67,7 @@ nlt.ss["twitch"].pajbot2check(chid, cmdline.substr(nlt.util.locateCharInStr(cmdl
 		return;
 	}
 	else {
-		resolve(`That message does not triggered a pb2 banphrase.`);
+		resolve(`That message did not trigger a pb2 banphrase/module.`);
 		return;
 	}
 
