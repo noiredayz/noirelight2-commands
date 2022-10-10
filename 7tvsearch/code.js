@@ -26,7 +26,7 @@ switch(target_context){
 }
 
 let tIDX = 1;
-let sOrder = "age";
+let sOrder = "popularity";
 let sDirection = 0;	//0 descending, 1 ascending
 
 if(incmd.length===1){
@@ -44,8 +44,8 @@ if(scmd.freestr.length===0){
 }
 
 if(scmd.order){
-	for(const x of ["pop", "popular", "popularity"]){
-		if(scmd.order === x) sOrder = "popularity";
+	for(const x of ["age", "uploaded", "date"]){
+		if(scmd.order === x) sOrder = "age";
 	}
 }
 
