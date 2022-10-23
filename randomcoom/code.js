@@ -20,6 +20,19 @@ switch(target_context){
 		//incmd	= cmdline.split(" ");
 		break;
 }
+let target;
+if(incmd.length>1){
+	if(incmd[1].toLowerCase() === "list"){
+		target = "list";
+	} else {
+		target = Number(incmd[1]);
+		if (target === NaN || target<0 || !Number.isInteger(target)){
+			resolve("parameter must be an integer >0 or 'list'");
+			return;
+		}
+		
+	}
+}
 let chlist;
 const https_options = {
 	url: "https://api.booba.tv/",
@@ -44,17 +57,30 @@ if(chlist.length===0){
 	return;
 }
 
+if(target==="list"){
+	resolve(`${chlist.length} booba streamers are currently online.`);
+	return;
+}
+
 let tID, previd = nlt.cache.getd("randomcoom-last-num");
-if(!previd || chlist.length===1)
-	tID = getRndInteger(0, chlist.length-1);
-else
-	do{
+if(target === undefined){
+	if(!previd || chlist.length===1)
 		tID = getRndInteger(0, chlist.length-1);
-		if(tID != previd)
-		continue;
-	} while (tID === previd);
-nlt.cache.deld("randomcoom-last-num")
-nlt.cache.setd("randomcoom-last-num", tID, 120);
+	else
+		do{
+			tID = getRndInteger(0, chlist.length-1);
+			if(tID != previd)
+			continue;
+		} while (tID === previd);
+	nlt.cache.deld("randomcoom-last-num")
+	nlt.cache.setd("randomcoom-last-num", tID, 120);
+} else {
+	if(target>chlist.length)
+		tID = chlist.length-1;
+	else
+		tID = target-1;
+}
+
 let hxdata;
 hxdata = await helixGetData("users", "id="+chlist[tID].user_id);
 if(!hxdata){
@@ -84,7 +110,7 @@ catch(err){
 	reject("nsfw check failed monkaS");
 	return;
 }
-resolve(`forsenCoomer channel: @${ctarget} (${tID}/${chlist.length}) thumbnail: ${tURL} ${retval}`);
+resolve(`forsenCoomer channel: @${ctarget} (${tID+1}/${chlist.length}) thumbnail: ${tURL} ${retval}`);
 return;
 
 
