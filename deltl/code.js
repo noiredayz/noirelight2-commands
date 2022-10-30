@@ -24,7 +24,7 @@ if(cmdline.length<2){
 	resolve(`usage: ${nlt.c.cmd_prefix}deltl <url>`);
 	return;
 }
-const retval = nlt.tldb.insertQuery(`DELETE FROM tl WHERE url LIKE '%$`+cmdline[1]+`%';`);
+const retval = nlt.tldb.insertQuery(`DELETE FROM tl WHERE url LIKE '%`+cmdline[1]+`%';`);
 if(retval.changes>0){
 	resolve(`Successfully deleted ${retval.changes} entries.`);
 	return;
