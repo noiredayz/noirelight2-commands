@@ -77,7 +77,7 @@ if(scmd.i){
 }
 if(scmd.author){
 	if(!validateTwitchUsername(scmd.author)){
-		resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `Invalid author name (a valid Twitch username)`});
+		resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `Invalid author name (not a valid Twitch username)`});
 		return;
 	}
 }
@@ -98,14 +98,14 @@ const NaM = {"query":"query($query: String!,$page: Int,$pageSize: Int,$globalSta
 //gql note: the submitted_by field is probably for searching for every emote uploaded by the name specified
 //it definitely doesn't work for when combined with query, that case it searches for an emote name
 //and ignores the submitted_by field
-				 
+
 const httpsOptions = {
 	url: "https://7tv.io/v2/gql",
 	method: "POST",
 	headers: { "content-type": "application/json",
 			   "user-agent": nlt.c.userAgent },
 	body: JSON.stringify(NaM),
-	timeout: 5000,
+	timeout: 10000,
 	retry: 1,
 	throwHttpErrors: false};
 
@@ -122,7 +122,7 @@ nlt.got(httpsOptions).then((result) =>{
 				resolve(dcmdr("errored", false, "error", `7tv API returned with an unexpected response code (${result.statusCode})`));
 				return;
 			}
-		const d = JSON.parse(result.body);		
+		const d = JSON.parse(result.body);
 		if(!d.data){
 			resolve(dcmdr("errored", false, "error", "7tv API returned an empty set, this shouldn't happen."));
 			return;
@@ -140,7 +140,6 @@ nlt.got(httpsOptions).then((result) =>{
 		}
 		resolve(dcmdr("success", true, "normal", `[${eidx+1}/${r.length}] "${r[eidx].name}" https://7tv.app/emotes/${r[eidx].id}`));
 		return;
-		
 }).catch((err) => {
 	printtolog(LOG_WARN, `7tv: http error: ${err}`);
 	resolve(dcmdr("errored", false, "error", "http error while trying to query 7tv gql"));
