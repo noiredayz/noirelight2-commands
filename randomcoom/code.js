@@ -1,5 +1,5 @@
 const {LOG_NO, LOG_DBG, LOG_INFO, LOG_WARN} = require(process.cwd()+"/lib/nlt-const.js");
-const {printtolog, donktime, getunixtime, getRndInteger, dcmdr} = require(process.cwd()+"/lib/nlt-tools.js");
+const {printtolog, donktime, getunixtime, getRndInteger, dcmdr, cleanupArray} = require(process.cwd()+"/lib/nlt-tools.js");
 const {getRandomUserAgent, nsfwCheckURL, thumbnailExists, helixGetData} = require(process.cwd()+"/lib/nlt-got.js");
 
 
@@ -10,7 +10,7 @@ let cmdline, incmd;
 
 switch(target_context){
 	case "twitch":
-		cmdline = fullmsg.messageText.substr(1);	//full message excluding the prefix
+		cmdline = cleanupArray(fullmsg.messageText.substr(1));	//full message excluding the prefix
 		incmd 	= cmdline.split(" ");				//same but split
 		break;
 	//placeholder for other contexts that may require extra handling Okayeg
