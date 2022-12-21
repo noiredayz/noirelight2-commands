@@ -10,8 +10,8 @@ let cmdline, incmd;
 
 switch(target_context){
 	case "twitch":
-		cmdline = cleanupArray(fullmsg.messageText.substr(1));	//full message excluding the prefix
-		incmd 	= cmdline.split(" ");				//same but split
+		cmdline = fullmsg.messageText.substr(1);	//full message excluding the prefix
+		incmd 	= cleanupArray(cmdline.split(" "));				//same but split
 		break;
 	//placeholder for other contexts that may require extra handling Okayeg
 	default:
