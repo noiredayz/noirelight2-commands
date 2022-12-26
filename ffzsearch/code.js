@@ -1,3 +1,5 @@
+const {cleanupArray} =  = require(process.cwd()+"/lib/nlt-tools.js");
+
 exports.noirelight2_command_code = function(fullmsg, unick, target_channel, target_context){
 return new Promise (async (resolve, reject) => {
 
@@ -6,7 +8,7 @@ let cmdline, incmd;
 switch(target_context){
 	case "twitch":
 		cmdline = fullmsg.messageText.substr(1);	//full message excluding the prefix
-		incmd 	= cmdline.split(" ");				//same but split
+		incmd 	= cleanupArray(cmdline.split(" "));				//same but split
 		break;
 	//placeholder for other contexts that may require extra handling Okayeg
 	default:
