@@ -110,7 +110,9 @@ catch(err){
 	reject("nsfw check failed monkaS");
 	return;
 }
-resolve(`forsenCoomer channel: @${ctarget} (${tID+1}/${chlist.length}) thumbnail: ${tURL} ${retval}`);
+let cemote = "forsenCoomer";
+if(nlt.channels[target_channel].name==="duardo1") cemote = "FuchsCoomer";
+resolve(`${cemote} channel: @${ctarget} (${tID+1}/${chlist.length}) thumbnail: ${tURL} ${retval}`);
 return;
 
 
