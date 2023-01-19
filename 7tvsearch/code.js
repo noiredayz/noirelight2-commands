@@ -27,7 +27,9 @@ switch(target_context){
 
 let tIDX = 1;
 let sOrder = "popularity";
-let sDirection = 0;	//0 descending, 1 ascending
+let sDirection = "DESCENDING";
+let sIgnoreTags = false;
+let sExactMatch = false;
 
 if(incmd.length===1){
 	resolve({status: "failed", hasLink: false, setCooldown: "cmdfail", msg: `Usage: ${nlt.c.cmd_prefix+incmd[0]} <emote name>`});
@@ -49,8 +51,16 @@ if(scmd.order){
 	}
 }
 
+if(scmd.notags === 1 || scmd.ignoretags === 1 || scmd.itg === 1){
+	sIgnoreTags = true;
+}
+
+if(scmd.exact === 1 || scmd.e === 1){
+	sExactMatch = true;
+}
+
 if(scmd.dir === 1 || scmd.d === 1){
-	sDirection = 1;
+	sDirection = "ASCENDING";
 }
 
 if(scmd.i){
@@ -83,24 +93,31 @@ if(scmd.author){
 }
 
 const searchEmote = scmd.freestr.split(" ")[0];
-const NaM = {"query":"query($query: String!,$page: Int,$pageSize: Int,$globalState: String,$sortBy: String,$sortOrder: Int,$channel: String,$submitted_by: String,$filter: EmoteFilter) {search_emotes(query: $query,limit: $pageSize,page: $page,pageSize: $pageSize,globalState: $globalState,sortBy: $sortBy,sortOrder: $sortOrder,channel: $channel,submitted_by: $submitted_by,filter: $filter) {id,visibility,urls,owner {id,display_name,role {id,name,color},banned}urls,name,tags}}",
-			 "variables":{
-				 "query": searchEmote,
-				 "page":1,
-				 "pageSize":searchLimit,
-				 "limit":searchLimit,
-				 "globalState": "hide",
-				 "sortBy": sOrder,
-				 "sortOrder": sDirection,
-				 "channel":null,
-				 "submitted_by": null}
-			};
-//gql note: the submitted_by field is probably for searching for every emote uploaded by the name specified
-//it definitely doesn't work for when combined with query, that case it searches for an emote name
-//and ignores the submitted_by field
+const NaM = {
+   "operationName":"SearchEmotes",
+   "variables":{
+      "query": searchEmote,
+      "limit": searchLimit,
+      "page":1,
+      "sort":{
+         "value": sOrder,
+         "order": sDirection
+      },
+      "filter":{
+         "category":"TOP",
+         "exact_match": sExactMatch,
+         "case_sensitive":false,
+         "ignore_tags": sIgnoreTags,
+         "zero_width": false,
+         "animated":false,
+         "aspect_ratio":""
+      }
+   },
+   "query":"query SearchEmotes($query: String!, $page: Int, $sort: Sort, $limit: Int, $filter: EmoteSearchFilter) {\n  emotes(query: $query, page: $page, sort: $sort, limit: $limit, filter: $filter) {\n    count\n    items {\n      id\n      name\n      state\n      trending\n      owner {\n        id\n        username\n        display_name\n        style {\n          color\n          paint_id\n          __typename\n        }\n        __typename\n      }\n      flags\n      host {\n        url\n        files {\n          name\n          format\n          width\n          height\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}"
+}			
 
 const httpsOptions = {
-	url: "https://7tv.io/v2/gql",
+	url: "https://7tv.io/v3/gql",
 	method: "POST",
 	headers: { "content-type": "application/json",
 			   "user-agent": nlt.c.userAgent },
@@ -127,7 +144,11 @@ nlt.got(httpsOptions).then((result) =>{
 			resolve(dcmdr("errored", false, "error", "7tv API returned an empty set, this shouldn't happen."));
 			return;
 		}
-		const r = d.data.search_emotes;
+		const r = d.data.emotes.items;
+		if(d.data.emotes.count===0){
+			resolve(dcmdr("cmdfail", false, "normal", "no emote found with your query."));
+			return;
+		}
 		if(tIDX === "random")
 			eidx = getRndInteger(0, r.length);
 		if(typeof(tIDX) === "number"){
@@ -149,4 +170,21 @@ nlt.got(httpsOptions).then((result) =>{
 
 });
 }
+
+
+/* v2 parameter backup
+ * const OldNaM = {"query":"query($query: String!,$page: Int,$pageSize: Int,$globalState: String,$sortBy: String,$sortOrder: Int,$channel: String,$submitted_by: String,$filter: EmoteFilter) {search_emotes(query: $query,limit: $pageSize,page: $page,pageSize: $pageSize,globalState: $globalState,sortBy: $sortBy,sortOrder: $sortOrder,channel: $channel,submitted_by: $submitted_by,filter: $filter) {id,visibility,urls,owner {id,display_name,role {id,name,color},banned}urls,name,tags}}",
+			 "variables":{
+				 "query": searchEmote,
+				 "page":1,
+				 "pageSize":searchLimit,
+				 "limit":searchLimit,
+				 "globalState": "hide",
+				 "sortBy": sOrder,
+				 "sortOrder": sDirection,
+				 "channel":null,
+				 "submitted_by": null}
+			};
+*/
+
 
