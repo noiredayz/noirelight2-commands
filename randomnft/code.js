@@ -41,7 +41,7 @@ if(!retval){
 		headers: { "user-agent": nlt.c.userAgent },
 			timeout: 1000,
 		retry: 1};
-	
+
 	try {
 		retval = await nlt.got(https_options);
 		retval = JSON.parse(retval.body);
@@ -81,8 +81,8 @@ nlt.maindb.insertQuery(`INSERT INTO nft
 						(uid, title, link, thumbnail, desc)
 						VALUES
 						('${tUID}', '${tname}', '${tdata.permalink}', '${tth}', '${tdesc}') ;`);
-						
-resolve(`https://noiresbot.noiredayz.link/bot/nft.php?id=${tUID} your random NFT from https://opensea.io (don't steal ;) ): ${tdata.name} `);
+
+resolve(`https://bot.noiredayz.link/bot/nft.php?id=${tUID} your random NFT from https://opensea.io (don't steal ;) ): ${tdata.name} `);
 })
 }
 

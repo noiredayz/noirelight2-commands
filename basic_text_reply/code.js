@@ -19,7 +19,7 @@ const chmode = nlt.util.tlToStr(nlt.channels[target_channel].chmode);
 
 switch(incmd[0]){
 	case 'website':
-		resolve("Command list only for the time being: http://noiresbot.noiredayz.link/bot/commands.html");
+		resolve("Command list only for the time being: http://bot.noiredayz.link/bot/commands.html");
 		break;
 	case 'api':
 		resolve("API is not currently operational saj");
@@ -51,7 +51,7 @@ switch(incmd[0]){
 		resolve(`Current channel mode: ${chmode}`);
 		break
 	case 'commands':
-		resolve(`Okayeg https://noiresbot.noiredayz.link/bot/commands.html`);
+		resolve(`Okayeg https://bot.noiredayz.link/bot/commands.html`);
 		break;
 	case 'trilaud':
 		if(nlt.channels[target_channel].links===0){
