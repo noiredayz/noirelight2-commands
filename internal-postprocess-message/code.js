@@ -27,18 +27,13 @@ if (target_channel === nlt.chctl.findChannel("noires_bot", "twitch") && cmdline.
 	return;
 }
 
-if (target_channel === nlt.chctl.findChannel("fabzeef", "twitch") && unick === "trichompbot" && cmdline === "asd"){
-	nlt.ss["twitch"].postmsg(target_channel, `BeefJam`);
-	resolve("handled");
-	return;
-}
-if (target_channel === nlt.chctl.findChannel("xoosd", "twitch") && unick === "kkooooooooool" && cmdline === "asd"){
-	nlt.ss["twitch"].postmsg(target_channel, `DinkDonk`);
+if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && unick==="deepdankdungeonbot" && incmd[0]==="monkaLaugh"){
+	nlt.cache.setd("dungeonbot_pingback", "NaM", 10);
 	resolve("handled");
 	return;
 }
 
- 
+/* 
 if(unick==="huwobot"){
 	if(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'))){
 		raid_broadcast(target_channel).then((d) => {
@@ -56,19 +51,6 @@ if(unick==="huwobot"){
 		resolve("handled");
 		return;
 	}
-	
-	/* TODO: move broadcast to bots channel or add an option for this
-	if(cmdline.includes("failed to beat the raid level")){
-		nlt.ss["twitch"].postmsg(target_channel, `UnSane`);
-		resolve("handled");
-		return;
-	}
-	if(cmdline.includes("users beat the raid level")){
-		nlt.ss["twitch"].postmsg(target_channel, `KomodoHype`);
-		resolve("handled");
-		return;
-	}
-	*/
 }
 
 if(unick==="noiredayz"){
@@ -85,6 +67,7 @@ if(unick==="noiredayz"){
 		nlt.ss["twitch"].postmsg(target_channel, `broadcast test result: ${asd}`);
 	}
 }
+*/
 
 resolve("not handled");
 return;
@@ -92,6 +75,7 @@ return;
 })
 }
 
+/*
 function raid_broadcast(target_channel){
 	return new Promise(async (resolve, reject) => {
 	let cdata = nlt.cache.getd(`raid broadcast ${nlt.channels[target_channel].name}`);
@@ -136,4 +120,6 @@ function raid_broadcast(target_channel){
 	return;
 });
 }
+
+*/
 
