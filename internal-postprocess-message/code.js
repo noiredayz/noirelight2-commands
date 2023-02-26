@@ -27,7 +27,7 @@ if (target_channel === nlt.chctl.findChannel("noires_bot", "twitch") && cmdline.
 	return;
 }
 
-if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && unick==="deepdankdungeonbot" && incmd[0]==="monkaLaugh"){
+if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && unick==="deepdankdungeonbot" && Boolean(cmdline.match(RegExp('monkaLaugh')))){
 	nlt.cache.setd("dungeonbot_pingback", "NaM", 10);
 	resolve("handled");
 	return;
