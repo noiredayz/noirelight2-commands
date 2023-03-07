@@ -33,26 +33,14 @@ if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && 
 	return;
 }
 
-/* 
-if(unick==="huwobot"){
-	if(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*'))){
-		raid_broadcast(target_channel).then((d) => {
-			printtolog(LOG_DBG, `<raid> broadcast result: ${d}`);
-			});
-		printtolog(LOG_DBG, `<debug> IPPM: huwobot raid detected`);
-		if(!nlt.cache.getd("raid-self-join")){
-			nlt.cache.setd("raid-self-join", "NaM", 60*20);
-			//TODO: add option for this
-			nlt.ss["twitch"].postmsg(target_channel, "+join");
-			printtolog(LOG_DBG, `<debug> IPPM: joining raid in #${nlt.channels[target_channel].name}`);
-		} else {
-			printtolog(LOG_DBG, `<debug> IPPM: not joining in #${nlt.channels[target_channel].name}, already joined the raid somewhere else`);
-		}
-		resolve("handled");
-		return;
-	}
+if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && unick==="deepdankdungeonbot" && Boolean(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*')))){
+	printtolog(LOG_DBG, `<debug> IPPM: dungeonbot raid detected`);
+	nlt.ss["twitch"].postmsg(target_channel, "+join");
+	resolve("handled");
+	return;
 }
 
+/*
 if(unick==="noiredayz"){
 	let asd="(no reply)";
 	if(cmdline.match(RegExp("raid broadcast test"))){
