@@ -45,7 +45,7 @@ if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch")){
 	}
 }
 
-if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && unick==="deepdankdungeonbot" && Boolean(cmdline.match(RegExp('A Raid Event at Level \\[[0-9]+\\] has appeared*')))){
+if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && unick==="deepdankdungeonbot" && Boolean(cmdline.match(RegExp('A Raid Event at Level \\[ [0-9]+ \\] has appeared*')))){
 	printtolog(LOG_DBG, `<debug> IPPM: dungeonbot raid detected`);
 	nlt.ss["twitch"].postmsg(target_channel, "+join");
 	resolve("handled");
