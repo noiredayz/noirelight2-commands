@@ -10,7 +10,7 @@ exports.noirelight2_command = {
 	mdesc: "Try to fix DeepDankDungeonBot",
 	cmdname: "fixdungeonbot",
 	pipeable: 0,
-	clearance: 0,
+	clearance: 1,
 	errmsg: "cannot run command nam",
 	nlt2_compatible: true,
 	cooldowns: {

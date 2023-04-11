@@ -53,7 +53,7 @@ if(nlt.cache.getd("dungeonbot_pingback")){
 }
 nlt.ss["twitch"].postmsg(target_channel, "dungeonbot didn't reply, restarting it");
 await nlt.exec.exec(c[0].data);
-resolve(dcmdr("success", false, "normal", "Restart command was issued, the bot should come back soon. If you you may 1. run THIS command again in 2 minutes 2. ping @noiredayz :tf:"));
+resolve(dcmdr("success", false, "normal", "Restart command was issued, the bot should come back soon. If not you may 1. run THIS command again in 2 minutes 2. ping @noiredayz :tf:"));
 return;
 })
 }
