@@ -33,18 +33,6 @@ if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && 
 	return;
 }
 
-if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch")){
-	const pepege = ["!join", "!addbot", "!add", "+addbot", "+joinchannel", "!howtoaddbot", "+howtoaddbot"];
-	if(pepege.findIndex(c => c.toLowerCase()===incmd[0].toLowerCase()) != -1){
-		if(!nlt.cache.getd("dungeonbot-add-command")){
-			nlt.ss["twitch"].postmsg(target_channel, `${unick}, to get DeepDankDungeonBot to your channel ping @Noiredayz or send him a Twitch whisper.`);
-			nlt.cache.setd("dungeonbot-add-command", "NaM", 60);
-			resolve("handled");
-			return;
-		}
-	}
-}
-
 if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && unick==="deepdankdungeonbot" && Boolean(cmdline.match(RegExp('A Raid Event at Level \\[ [0-9]+ \\] has appeared*')))){
 	printtolog(LOG_DBG, `<debug> IPPM: dungeonbot raid detected`);
 	nlt.ss["twitch"].postmsg(target_channel, "+join");
