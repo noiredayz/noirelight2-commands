@@ -25,7 +25,7 @@ if(!cPerms){
 	reject("no userstate cached for this channel.")
 	return;
 }
-if(!cPerms.isMod && nlt.channels[target_channel].name != nlt.c.twitch.username){
+if(!cPerms.isMod && nlt.channels[target_channel].name != nlt.identities["twitch"].login){
 	resolve("You cannot vanish here.");
 	return;
 }
@@ -33,7 +33,7 @@ if(unick.toLowerCase() === nlt.channels[target_channel].name){
 	resolve("I cannot time out the broadcaster.");
 	return;
 }
-if(fullmsg.isMod && nlt.channels[target_channel].name === nlt.c.twitch.username){
+if(fullmsg.isMod && nlt.channels[target_channel].name === nlt.identities["twitch"].login){
 	resolve("Timing out moderators will result in losing their moderation status, so I won't do it.");
 	return;
 }	

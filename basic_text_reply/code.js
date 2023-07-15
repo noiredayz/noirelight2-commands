@@ -25,7 +25,7 @@ switch(incmd[0]){
 		resolve("API is not currently operational saj");
 		break;
 	case 'bot':
-		resolve(`${nlt.c.twitch.username} is a bot operated by ${nlt.c.usr_admin}. Channel mode: ${chmode} Also see: ${nlt.c.cmd_prefix}node ${nlt.c.cmd_prefix}version`);
+		resolve(`${nlt.identities["twitch"].login} is a bot operated by ${nlt.c.usr_admin}. Channel mode: ${chmode} Also see: ${nlt.c.cmd_prefix}node ${nlt.c.cmd_prefix}version`);
 		break;
 	case 'version':
 		resolve(`noirelight2 v${nlt.c.bver}, written by noiredayz, in n OMEGALUL de-js. See also: ${nlt.c.cmd_prefix}node and ${nlt.c.cmd_prefix}bot `);
