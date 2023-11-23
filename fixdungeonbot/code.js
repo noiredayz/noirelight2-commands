@@ -36,19 +36,19 @@ nlt.ss["twitch"].postmsg(target_channel, "Running check to see if dungeonbot is 
 nlt.ss["twitch"].postmsg(target_channel, "+nlt2ping");
 await(sleep(5000));
 if(nlt.cache.getd("dungeonbot_pingback")){
-	resolve(dcmdr("success", false, "normal", "Dungeonbot seems to be alive Clueless if it's not replying in channels where it's not mod/VIP then we might be shadowbanned again LULE"));
+	resolve(dcmdr("success", false, "normal", "Dungeonbot seems to be alive Clueless if it's not replying normally, there might be temporary network issues (it's TMI pajaCope )"));
 	return;
 }
 nlt.ss["twitch"].postmsg(target_channel, "+nlt2ping");
 await(sleep(5000));
 if(nlt.cache.getd("dungeonbot_pingback")){
-	resolve(dcmdr("success", false, "normal", "Dungeonbot seems to be alive Clueless if it's not replying in channels where it's not mod/VIP then we might be shadowbanned again LULE"));
+	resolve(dcmdr("success", false, "normal", "Dungeonbot seems to be alive Clueless if it's not replying normally, there might be temporary network issues (it's TMI pajaCope )"));
 	return;
 }
 nlt.ss["twitch"].postmsg(target_channel, "+nlt2ping");
 await(sleep(5000));
 if(nlt.cache.getd("dungeonbot_pingback")){
-	resolve(dcmdr("success", false, "normal", "Dungeonbot seems to be alive Clueless if it's not replying in channels where it's not mod/VIP then we might be shadowbanned again LULE"));
+	resolve(dcmdr("success", false, "normal", "Dungeonbot seems to be alive Clueless if it's not replying inormally, there might be temporary network issues (it's TMI pajaCope )"));
 	return;
 }
 nlt.ss["twitch"].postmsg(target_channel, "dungeonbot didn't reply, restarting it");
