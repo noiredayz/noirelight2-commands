@@ -40,6 +40,12 @@ if (target_channel === nlt.chctl.findChannel("deepdankdungeonbot", "twitch") && 
 	return;
 }
 
+if (target_channel === nlt.chctl.findChannel("kimimayushi", "twitch") && cmdline.startsWith(":3") && unick==="mechacutie"){
+	nlt.ss["twitch"].postmsg(target_channel, `:3`);
+	resolve("handled");
+	return;
+}
+
 /*
 if(unick==="noiredayz"){
 	let asd="(no reply)";
